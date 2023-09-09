@@ -1,0 +1,7 @@
+wikipedia
+db-sqlite3
+pandas
+psycopg2-binary
+sklearn
+scikit-learn
+boto3

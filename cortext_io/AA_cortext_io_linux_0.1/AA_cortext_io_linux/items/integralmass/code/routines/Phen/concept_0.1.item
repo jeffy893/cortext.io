@@ -1,0 +1,261 @@
+package routines;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class concept {
+
+
+    public static int extract_phen(Integer sent_id) {
+
+    	System.out.println("Sent Id: " + sent_id + "--------------------");
+    	
+    	int max_word_id = connect_phen.word_max(sent_id);
+    	
+        List<String> word_concept = new ArrayList<String>();
+
+        
+        boolean gate1 = false;
+        boolean gate2 = true; 
+        
+        int subj_memory = 0;
+        int greater_than_subj = 0;
+        int word_count = 1;
+        
+        List<word_return_obj> l_wro = connect_phen.word_return(sent_id);
+        
+       // for(int word_order = min_word_id; word_order < max_word_id; word_order++){
+         
+        for(word_return_obj wro: l_wro){
+        
+        	System.out.println("Word " + word_count + " Id: " + wro.word_id);
+                    
+            int subject_trigger = 0;
+            
+            boolean subj_bool = false;
+            
+           // for(int subj_unit_order = min_subj_unit_id; subj_unit_order < max_subj_unit_id + 1; subj_unit_order++){
+            
+            	//System.out.println("Subj Unit Id:" + subj_unit_order);
+                
+            if(subj_bool == false){ 
+            
+               int subj_summary_id = connect_phen.subj_unit_search(wro.word_id, sent_id);
+                
+                
+                
+                if(subj_summary_id != subj_memory && subj_summary_id != 0 && subj_summary_id > greater_than_subj){
+                    greater_than_subj = subj_summary_id;
+                    subj_bool = true;
+                    subject_trigger = 1;
+                }
+
+                    subj_memory = subj_summary_id;
+
+                    if(subj_summary_id != 0 && subj_summary_id == greater_than_subj){
+                        
+                        subject_trigger = 1;
+                    }
+                       
+            } 
+                   
+                
+           // }
+            
+
+            
+            if( wro.syn_id != 0 || subject_trigger == 1){               //if the current word is a subject or syn
+                
+                if(gate2 == false){                                 //if the previous word was not a subject or syn
+                                                                    //Has to not be the first word
+
+                 //Commit Concept
+                 concept.commit_concept(word_concept, sent_id, 0 , 0);      //commit concept
+                 word_concept.clear();
+                
+                
+                 gate2 = true;                                     //(Previous word is not part of a concept 
+                }if (gate2 == true){                                             //the previous word was not a part of a concept
+                
+                     if(wro.syn_id != 0 && subject_trigger != 1){
+
+                       
+                        concept.commit_relation(wro.word_content, sent_id, wro.syn_id, 0, 0);
+
+                                                                                //Add word to relation array
+                
+                     }
+                     
+                     
+                gate1 = true;                                      //(Previous word is a relation)
+                }
+                
+                gate1=true;
+            }else{                                                  //Current word is not a relation
+             
+             
+                if(gate1 == false && gate2 == true){                //if previous word is not a concept and previous word is a relation
+             
+                word_concept.add(wro.word_content);                       //add word to concept array
+                
+                
+                gate2 = false;                                      //previous word is not a relation
+                
+                
+                }else if(gate1 == true){           //If previous word is a relation and current word is not a relation
+                                                                    //Current word is not a relation
+                                                                    //First word in Concept accounted for
+                    
+                    
+                    word_concept.add(wro.word_content);                   //Add word to concept array
+                    
+                    
+                    gate2 = false;                                  //previous word is not a relation
+                    gate1 = false;                                  //previous word is a concept
+                    
+                }else if (gate1 == false && gate2 == false){        //If previous word is not a relation and previous word is a concept
+                                                                    //2nd and above word in Concept
+                    
+                    
+                     word_concept.add(wro.word_content);                  //Add word to concept array
+                    
+                    
+                }
+                if(wro.word_id == max_word_id - 1){          //If current word is not a relation
+                                                                               //and previous word is a relation
+                                                                               //and the current word is the last word in the sentence
+                                                 //add current word to concept                       
+                    
+                    
+                    /// Commit Concept
+                    
+                    
+                    
+                     concept.commit_concept(word_concept, sent_id, 0, 0);            //Commit concept
+                    
+                     
+                     
+                     
+                    
+                    
+                    gate2 = true;
+                }
+                
+                
+                
+            }       //Not a relation
+            
+            
+            
+            if(subj_bool == true){
+                
+                String subj_content = connect_phen.subj_return(subj_memory);
+                concept.commit_subj(subj_content, subj_memory, sent_id, 0, 0);
+                
+            }
+            
+          word_count++;  
+        }           //Word_Id loop
+               
+        	
+        	word_concept.clear();
+        	l_wro.clear();
+                          //Commit Relations
+        
+        return sent_id;
+        
+    }
+    
+    
+    
+    public static void commit_concept( List<String> concept, int sent_id, int syn_id, int subj_id){
+        
+        String concept_content = "";
+        int concept_unit_total = concept.size();
+        int concept_unit_order = 1;
+        for(String word_content: concept){
+            
+            
+            
+            
+            if(concept_unit_order != concept_unit_total)
+                concept_content += word_content + " ";
+            else
+                concept_content += word_content; 
+            
+            concept_unit_order++;
+        }
+        
+        int concept_id = connect_phen.concept_max();
+        
+        //Commit Concept
+        
+        if(concept_content != null && concept_content !="" && concept_content.length()>0){
+        if(concept_content.charAt(concept_content.length()-1) == ' '){
+            
+            concept_content = concept_content.substring(0, concept_content.length()-1);
+        }
+        }
+        
+        
+   /*     int gdelt_lib_id = connect_phen.gdelt_library(concept_content);
+        int idea_lib_id = connect_phen.idea_library(concept_content);
+        int gics_lib_id = connect_phen.gics_library(concept_content);        */
+        
+        int election_markets_id = connect_phen.election_markets(concept_content);
+        
+        concept_content = concept_content.replaceAll("\\ \\ ", "\\ ");
+        
+        connect_phen.phen_summary(sent_id, concept_content, syn_id, subj_id, concept_id + 1, election_markets_id);
+        
+        concept_content = null;
+    }
+    
+    
+    
+    public static void commit_relation(String relation_content, int sent_id, int syn_id, int subj_id, int concept_id){
+     
+        
+        //Relation Commit
+        
+        if(relation_content.charAt(relation_content.length()-1) == ' '){
+            
+            relation_content = relation_content.substring(0, relation_content.length()-1);
+        }
+        
+        int election_markets_id = connect_phen.election_markets(relation_content);
+        
+        relation_content = relation_content.replaceAll("\\ \\ ", "\\ ");
+        
+        connect_phen.phen_summary(sent_id, relation_content, syn_id ,subj_id , concept_id, election_markets_id);
+        
+        
+    }
+    
+    
+    public static void commit_subj(String subj_content, int subj_id, int sent_id, int syn_id, int concept_id){
+        
+
+
+        if(subj_content.charAt(subj_content.length()-1) == ' '){
+            
+            subj_content = subj_content.substring(0, subj_content.length()-1);
+        }
+        
+        
+        //Commit Subject
+            
+    /*    int gdelt_lib_id = connect_phen.gdelt_library(subj_content);
+        int idea_lib_id = connect_phen.idea_library(subj_content);
+        int gics_lib_id = connect_phen.gics_library(subj_content); */
+        
+        int election_markets_id = connect_phen.election_markets(subj_content);
+        
+        subj_content = subj_content.replaceAll("\\ \\ ", "\\ ");
+        
+        connect_phen.phen_summary(sent_id, subj_content, syn_id, subj_id, concept_id, election_markets_id);
+        
+        
+    }
+}

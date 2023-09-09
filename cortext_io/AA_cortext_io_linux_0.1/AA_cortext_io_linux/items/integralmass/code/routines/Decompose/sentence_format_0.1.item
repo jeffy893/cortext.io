@@ -1,0 +1,124 @@
+package routines;
+
+public class sentence_format {
+    
+    public static String sent_sql_format(String sent) {
+        
+    	
+        sent = sent.replaceAll("\\$([0-9])","dlra$1");
+        sent = sent.replaceAll("([0-9])%","$1prca");
+        sent = sent.replaceAll("([0-9]),([0-9])","$1cmam$2");
+        sent = sent.replaceAll("([0-9])\\.([0-9])","$1dtta$2");
+        sent = sent.replaceAll("No\\.","Nodtta");
+        sent = sent.replaceAll("no\\.","Nodtta");
+        sent = sent.replace("'s","apstas");
+        sent = sent.replace("'t","apstat");
+        sent = sent.replace("'re","apstare");
+        sent = sent.replace("'ve","apstave");
+        sent = sent.replaceAll("\t", " ");
+        sent = sent.replaceAll("\r", " ");
+        sent = sent.replaceAll("\n", " ");
+        sent = sent.replace(".\"", "\".");
+        sent = sent.replace("\"", " &quote ");
+        sent = sent.replace("'", " &apos ");
+        sent = sent.replace("?","?.");
+        sent = sent.replace("!","!.");
+        sent = sent.replace("cf.","cf");
+        sent = sent.replace("e.g.","eg");
+        sent = sent.replace("etc.","etc");
+        sent = sent.replace("i.e.","ie");
+        sent = sent.replace(".,", ",");
+        sent = sent.replace("á", "a");
+        sent = sent.replace("é", "e");
+        sent = sent.replace("í", "i");
+        sent = sent.replace("ó", "o");
+        sent = sent.replace("ñ", "n");
+        sent = sent.replace("ú", "u");
+        sent = sent.replace("¿", "");
+        sent = sent.replace("¡", "");
+        sent = sent.replace("ü", "u");
+        sent = sent.replace("Ñ", "N");
+        sent = sent.replace("É", "E");
+        sent = sent.replace("Á", "A");
+        sent = sent.replace("Í", "I");
+        sent = sent.replace("Ó", "O");
+        sent = sent.replace("Ú", "U");
+        sent = sent.replace("Ü", "U");
+                
+       
+       
+        
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6$7$8");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6$7");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3");
+        sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.", "$1$2");
+        sent = sent.replaceAll("([A-Z])\\.", "$1");
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        return sent;
+        
+    }
+    
+    
+    
+    
+    public static String word_object_format(String sent){
+        
+        String sennt = sent.replaceAll("[^\\p{ASCII}]", "");
+        
+        
+
+        sennt = sennt.replaceAll("([-!@#%*_/{};\\]\\[\\(\\):?<>,.~`|])"," $1 ");
+        sennt = sennt.replaceAll("([^0-9]),","$1 ,");
+        sennt = sennt.replaceAll(",([^0-9])",", $1");
+        sennt = sennt.replace("..."," ... ");
+        sennt = sennt.replace(".."," .. ");
+        sennt = sennt.replace("\"", "");
+        sennt = sennt.replace("\n","");
+        sennt = sennt.replace("\t","");
+        sennt = sennt.replace("\r","");
+        sennt = sennt.replace("! .","!");
+        sennt = sennt.replace("? .","?");
+       
+        sennt = sennt.replace("!  .","!");
+        sennt = sennt.replace("?  .","?");
+        
+        
+        
+        return sennt;
+    }
+    
+    public static String add_period(String sent_content){
+    	
+    	String sent = "";
+    	
+        if(sent_content.substring(0, 1).matches("\\ ")){
+            if (sent_content.substring(1,2).matches("\\ ")){
+               sent = sent_content.substring(2) +  ".";
+            }
+            else{
+                sent = sent_content.substring(1) + ".";}}
+        else{
+            sent = sent_content + ".";                           
+        }
+    	
+    	
+    	
+    	return sent;
+    }
+    
+    
+    
+    
+}

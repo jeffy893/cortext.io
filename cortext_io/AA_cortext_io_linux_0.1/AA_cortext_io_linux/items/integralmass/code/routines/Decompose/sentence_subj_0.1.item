@@ -1,0 +1,496 @@
+package routines;
+
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+
+
+public class sentence_subj {
+
+public static String extract_subj (String sent, int sent_id){
+        
+    	java.util.Date date= new java.util.Date();
+        
+        Timestamp time_stamp = new Timestamp(date.getTime());
+        String time = time_stamp.toString();
+    	
+    	
+        HashSet<String> ref_logic = new HashSet<String>();
+        
+        ref_logic.add("and");
+        ref_logic.add("or");
+        ref_logic.add("in");
+        ref_logic.add("the");
+        ref_logic.add("to");
+        ref_logic.add("for");
+        ref_logic.add("of");
+        ref_logic.add("a");
+        ref_logic.add("an");
+        ref_logic.add("any");
+        ref_logic.add("another");
+        ref_logic.add("other");
+        ref_logic.add("what");
+        ref_logic.add("whats");
+        ref_logic.add("who");
+        ref_logic.add("why");
+        ref_logic.add("Y");
+        ref_logic.add("O");
+        ref_logic.add("en");
+        ref_logic.add("el");
+        ref_logic.add("los");
+        ref_logic.add("la");
+        ref_logic.add("las");
+        ref_logic.add("a");
+        ref_logic.add("por");
+        ref_logic.add("para");
+        ref_logic.add("de");
+        ref_logic.add("desde");
+        ref_logic.add("un");
+        ref_logic.add("uno");
+        ref_logic.add("unos");
+        ref_logic.add("una");
+        ref_logic.add("unas");
+        ref_logic.add("alguna");
+        ref_logic.add("otro");
+        ref_logic.add("que");
+        ref_logic.add("como");
+        ref_logic.add("cual");
+        ref_logic.add("porque");
+        ref_logic.add("se");
+        ref_logic.add("no");
+        
+        
+        
+        word_format c_words = new word_format (); 
+        
+           // ********************** To Word Cap
+
+        
+        String full_subj = "";
+
+        String[] word = sent.split("\\ ");
+
+        String subj = "";
+        String subj_2 = "";
+        String subj_3 = "";
+        boolean upp = false;
+        
+        int b = -1;
+        
+        
+        
+        String concept = "";
+        
+        int wordInt = 0;
+        
+        System.out.println("--------------------------------------------");
+        System.out.println("----------------" + time + "----------------");
+        System.out.println("--------------------------------------------");
+        
+        
+        
+        
+        TreeMap<Integer, phen_phen> tree = new TreeMap<Integer, phen_phen>();
+        
+        
+        int treeIndex = -1;
+        
+        
+        for (int word_order = 0; word_order < word.length; word_order++){
+            
+        	wordInt++;
+        	
+        	System.out.println("Word number " + wordInt + " of " + word.length);
+        	
+        	
+        	int syn_id = 0;
+        	
+        	
+            String new_word_8 = word[word_order].replaceAll("\\s\\s\\s\\s", "");
+            
+            String new_word_7 = new_word_8.replaceAll("\\s\\s\\s", "");
+            
+            String new_word_6 = new_word_7.replaceAll("\\s\\s", "");
+            
+            String new_word_5 = new_word_6.replaceAll("\\s", "");
+            
+            String new_word_4 = new_word_5.replaceAll("[^A-Za-z0-9 ]", "");
+            
+            String new_word_3 = new_word_4.replaceAll("\\s[^A-Za-z0-9 ]", "");
+            
+            String new_word_2 = new_word_3.replaceAll("[^A-Za-z0-9 ]\\s", "");
+            
+            String new_word = new_word_2.replaceAll("\\s[^A-Za-z0-9 ]\\s", "");         //Remove Symbols other than letters or numbers
+            
+            
+            if( new_word!= null && new_word.length() > 0){                              //If the word is not null not empty
+            
+            upp = c_words.cap_word(new_word);                                           //True if word is Capitalized
+            
+            }
+            
+            
+            if (upp == true ){                                                          //If current word is capitalized
+                
+            	
+            	if(concept != ""){
+            		if(concept != null && concept.length() > 1){
+            		//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
+            		
+            		treeIndex = sent.indexOf(concept.substring(1));
+            		
+            		if(treeIndex == -1 && !tree.isEmpty())
+                		treeIndex = tree.lastKey() + 1;
+            		
+            		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+            		
+            		}
+            		concept = "";
+            		
+            	}
+               
+                subj = subj + new_word + " ";                                           //Add word to subject string
+                
+                if(word_order == word.length-1){                                        //If the current word is the last word
+                    subj = subj.substring(0,subj.length()-1);                           //Remove ending (space) from subject
+                    full_subj = full_subj + "@" + subj; 
+                    
+                    if(subj != null && subj.length() > 1){
+                        //connect_phen.phen_summary(sent_id, subj, 0, 1, 0, 0);
+                		treeIndex = sent.indexOf(subj);
+                		
+                		if(treeIndex == -1 && !tree.isEmpty())
+                    		treeIndex = tree.lastKey() + 1;
+                		
+                		tree.put(treeIndex, new phen_phen(sent_id, subj, 0, 1, 0, 0));
+                        }
+                    
+                    subj = "";
+                }
+                b = 0;  
+               														//Previous word is capitalized
+            }
+            
+            else {                                                                      //If current word is not capitalized
+               
+                if(b == 0){                                                             //If previous word is capitalized
+                    
+                    if(concept != ""){
+                    	if(concept != null && concept.length() > 1){
+                    	//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
+                		treeIndex = sent.indexOf(concept.substring(1));
+                		
+                		if(treeIndex == -1 && !tree.isEmpty())
+                    		treeIndex = tree.lastKey() + 1;
+                		
+                		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+                    	}
+                    	concept = "";
+                    	
+                    }
+                	
+                	
+                    subj_2 = subj;  
+                    //Store previous subject into subj_2
+                    if(word_order == word.length-1 && subj!="" && subj!=null && subj.length() > 0){                          //the current word is the last word  and subj is not empty                       //Remove ending (space) from subject
+                        full_subj = full_subj + "@" + subj_2;
+                        if(subj_2 != null && subj_2.length() > 1){
+                        //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
+                		treeIndex = sent.indexOf(subj_2);
+                		
+                		if(treeIndex == -1 && !tree.isEmpty())
+                    		treeIndex = tree.lastKey() + 1;
+                		
+                		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        }
+                        
+                        subj = "";
+                        b = -1;                                                                         //Add subject to array of subjects
+                    }
+                    if(word_order != word.length-1 && new_word != null && new_word != "" && new_word.length() > 0){                      //If current word is not null nor empty
+                        if (ref_logic.contains(new_word) ) {                                //If current word is a logic word
+                        
+                        
+                        	
+                        	
+                        subj = subj + new_word + " ";
+                        b++;                                                                //Add logic word to previous subject
+                        }else if (!ref_logic.contains(new_word) && subj_2 != ""){                                                          //Not a logic
+                            
+                            full_subj = full_subj + "@" + subj_2;
+                            if(subj_2 != null && subj_2.length() > 1){
+                            //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
+                    		treeIndex = sent.indexOf(subj_2);
+                    		
+                    		if(treeIndex == -1 && !tree.isEmpty())
+                        		treeIndex = tree.lastKey() + 1;
+                    		
+                    		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                            }
+                            
+                            subj = "";
+                            b = -1;
+                        }
+                    }
+                    
+                                                       
+                }else if(b==1){                                                         //if the current word is not capitalized
+                                                                                        //and the previous word was not capitalized          
+                    
+                    if(ref_logic.contains(new_word) && new_word!=null && new_word != "" && new_word.length() > 0){                        //If current word is not null nor empty
+                        
+                    	if(concept != ""){
+                    		if(concept != null && concept.length() > 1){
+                    		//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
+                    		treeIndex = sent.indexOf(concept.substring(1));
+                    		
+                    		if(treeIndex == -1 && !tree.isEmpty())
+                        		treeIndex = tree.lastKey() + 1;
+                    		
+                    		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+                    		}
+                    		concept = "";
+                    		
+                    	}
+                    	
+                    	
+                    	
+                        subj = subj + new_word + " ";                               //Add current word to previous subj
+                    
+                        b++;
+                    
+                    }else if (!ref_logic.contains(new_word) && new_word != "" && subj!="" && subj!=null && subj.length() > 0){           //If current word is not a logic word  --- Add words to ref_logic
+                            full_subj = full_subj + "@" + subj_2; 
+                            if(subj_2 != null && subj_2.length() > 1){
+                            //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
+                    		treeIndex = sent.indexOf(subj_2);
+                    		
+                    		if(treeIndex == -1 && !tree.isEmpty())
+                        		treeIndex = tree.lastKey() + 1;
+                    		
+                    		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                            }
+                            											//Add subject to array of subjects
+                            subj = "";                                                  //Set previous subject to ""
+                            b = 0;                                                      
+                        
+                        
+                        }
+                
+                    
+                } else if(b>1){
+                
+                    if (subj != "" &&  subj!=null && subj.length() > 0 && new_word != "" && subj_2 != "" && subj_2.length() > 0){
+
+                    subj_3 = subj_2.substring(0,subj_2.length()-1);
+                    full_subj = full_subj + "@" + subj_2;
+                    if(subj_2 != null && subj_2.length() > 1){
+                    //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
+            		treeIndex = sent.indexOf(subj_2);
+            		
+            		if(treeIndex == -1 && tree != null)
+                		treeIndex = tree.lastKey() + 1;
+            		
+            		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                    }
+                    
+                    subj = "";
+                    b++;
+                    }
+                    
+                }
+                
+                syn_id = connect_phen_sqlite.syn_search_word(new_word);
+                		
+                if(syn_id != 0){
+                	if(new_word != null && new_word.length() > 1){
+                		//connect_phen.phen_summary(sent_id, new_word, syn_id, 0, 0, 0);
+                		treeIndex = sent.indexOf(new_word);
+                		
+                		if(treeIndex == -1 && !tree.isEmpty())
+                    		treeIndex = tree.lastKey() + 1;
+                		
+                		tree.put(treeIndex, new phen_phen(sent_id, new_word, syn_id, 0, 0, 0));
+                	}
+                }
+                
+                if( syn_id == 0 ){
+                concept += " " + new_word;   
+
+                }
+                
+                if((syn_id != 0 && concept != "") || (word_order == word.length-1 && concept != "")){
+                	
+                	treeIndex = sent.indexOf(concept.substring(1));
+            		
+                	if(treeIndex == -1 && !tree.isEmpty())
+                		treeIndex = tree.lastKey() + 1;
+                	
+            		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+                	
+            		concept = "";
+            		
+                }
+                
+                
+               
+            }
+                
+            
+
+            new_word = null;
+            new_word_2 = null;
+            new_word_3 = null;
+            new_word_4 = null;
+            new_word_5 = null;
+            new_word_6 = null;
+            new_word_7 = null;
+            new_word_8 = null;
+
+        }    // word loop
+        
+        for(Map.Entry<Integer,phen_phen> entry : tree.entrySet()) {
+        	  phen_phen phenValue = entry.getValue();
+        	  
+        	  if(phenValue.phen != null && phenValue.phen != "" && phenValue.phen.length() > 0)
+        	  connect_phen_sqlite.phen_summary(phenValue.sent_id, phenValue.phen, phenValue.syn_id, phenValue.subj_summary_id, phenValue.concept_id);
+        	  
+        	  
+        	}
+        
+        ref_logic.clear();
+        word = null;
+        subj = null;
+        subj_2 = null;
+        subj_3 = null;
+        tree.clear();
+        concept = null;
+        subj = null;
+        
+        
+        if(full_subj!=""){
+        return full_subj.substring(1);
+        }else{
+        	return full_subj;
+        }
+        	
+        
+        
+        
+    }  // method
+    
+    
+    
+  public static String subj_unit(String subj){
+        
+	  String subj_unit = "";
+       
+        perm_comb perm = new perm_comb();
+        
+        
+        List<String> subj_combo = new ArrayList<String>();        
+        subj_combo = perm.concept_word_comb(subj);        //Perm_Comb   
+            
+         
+            
+  /*          String subj_code = "";
+            
+                String[] code_unit = subj.split("\\ ");
+                
+                for(int z = 0; z < code_unit.length; z++){                           //Create Subject Code with all capital letters added together
+                    
+                if(code_unit[z] != null && code_unit[z].length() > 0){
+                char first_letter = code_unit[z].charAt(0);
+                
+                boolean code_bool = Character.isUpperCase(first_letter);
+                
+                if(code_bool == true)
+                subj_code = subj_code + first_letter;
+                    }
+            
+                }
+            
+            
+            
+            
+            int o = 1;
+            int trig = 0;
+            
+              
+                    while(connect.code_search(subj_code)){     //Search for duplicate code in Cortext.Memory and adds string-number to code
+                        
+                        
+                        String w = Integer.toString(o);
+                        
+                        if(trig !=0){
+                            
+                            subj_code = subj_code.substring(0, subj_code.length()-1) + w;
+                            
+                        }
+                        else{
+                            
+                            subj_code = subj_code + w;
+                        }
+                        
+                        
+                        o++;
+                        trig++;
+                    }
+            
+            
+            
+            
+            
+            
+            
+            
+                
+            
+            
+            
+           
+            connect.subj_summary(sent_id, subj, subj_code);                //Commit Subject   
+             
+                         
+                         */
+                         
+                         
+            //int max_subj = connect.max_subj();
+            
+            for(String subj_combo_unit : subj_combo){
+                
+                
+            
+                //int avg_name_id = connect.avg_name_search(subj_combo_unit);     //Average name dictionary to label common subjects
+                
+            
+                //connect.subj_unit(max_subj, subj_combo_unit, avg_name_id);      //  Insert Subj Unit
+       
+                subj_unit = subj_unit + "@" + subj_combo_unit;
+                
+            }
+        
+        
+        
+           
+         
+             
+            
+        return subj_unit.substring(1);
+        
+        
+        }   
+        
+        
+        
+        
+        
+        
+    
+
+}
