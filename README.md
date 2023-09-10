@@ -36,8 +36,8 @@ The Cortext LLM is more elegant than "Word2Vec" style Natural Language Processin
 
 |     Purpose        |Location                         |
 |----------------|-------------------------------|
-|Send Email Report with SMTP|cortext_io/10K_RiskFactors_PROCESS/sendEmail.py            |
-|Push content to your ElasticSearch instance          |cortext_io/10K_RiskFactors_PROCESS/zzz_pushElastic.py            |
+|Send Email Report with SMTP|[cortext_io/10K_RiskFactors_PROCESS/sendEmail.py](cortext_io/10K_RiskFactors_PROCESS/sendEmail.py)            |
+|Push content to your ElasticSearch instance          |[cortext_io/10K_RiskFactors_PROCESS/zzz_pushElastic.py](cortext_io/10K_RiskFactors_PROCESS/zzz_pushElastic.py)            |
 
 
 ## Cortext LLM uses an SQLite database file for staging
@@ -46,14 +46,14 @@ or see the uml diagram here: https://www.cortext.io/how-it-works
 
 |     Purpose        |Location                         |
 |----------------|-------------------------------|
-|Relational Data Structure for Text Decomposition | cortext_io/cortext_io_db/cortext_io.db           |
+|Relational Data Structure for Text Decomposition | [cortext_io/cortext_io_db/cortext_io.db](cortext_io/cortext_io_db/cortext_io.db)           |
 
 
 ## Track the Java Routines --> Look for .item
 The LLM has gone through multiple languages and architectures (not to say they got progressively better). I landed on Talend... Search for
 |     Purpose        |Location                         |
 |----------------|-------------------------------|
-|"Scripts" in Talend Workflow | cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines           |
+|"Scripts" in Talend Workflow | [cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines ](cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines)           |
  to see where the hashtag extraction takes place.
 
 ## Perceptron to Clean the Noise
