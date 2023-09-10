@@ -19,7 +19,7 @@ The Cortext LLM is more elegant than "Word2Vec" style Natural Language Processin
 
 ## Microservice Architecture I run Cortext LLM within
 
-![temp](https://lh6.googleusercontent.com/hlmSoZP4fTj8PbZN7TAKwG6ZhIL8IVoY6553ChNwRokfJiLDz4nq9KI4KhmpzMY_CGZz6RBFVJwXCURWluw38Lxu90ykaVmU61uqRsb7A_26P5bc8j3ucK-CXOJdSqddVw=w12800)
+![Cortext_Arch_AWS_Services](Cortext_Arch_AWS_Services.png)
 
 
 
