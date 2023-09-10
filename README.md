@@ -18,7 +18,7 @@ The Cortext LLM is more elegant than "Word2Vec" style Natural Language Processin
 
 
 
-#### Command to run with text already in input.txt:
+### Command to run with text already in input.txt:
 `./text.sh [Title] [Email] [Email?]`
 
 ### Command to run in Batch Job:
@@ -26,16 +26,30 @@ The Cortext LLM is more elegant than "Word2Vec" style Natural Language Processin
 
 ***You will need to replace the emails, usernames, and passwords in the following locations for this to actually send out content:***
 
-`cortext_io/10K_RiskFactors_PROCESS/sendEmail.py`
-`cortext_io/10K_RiskFactors_PROCESS/zzz_pushElastic.py`
+cortext_io/10K_RiskFactors_PROCESS/sendEmail.py
+cortext_io/10K_RiskFactors_PROCESS/zzz_pushElastic.py
 
+
+## Trace the Java Routines --> Look for .item
+The LLM has gone through multiple languages and architectures (not to say they got progressively better). Search for cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines to see where the lanugage learning takes place.
+
+## Perceptron to Clean the Noise
+A Python Perceptron is used to clean the noise, based on hand-selection of the best "hashtag" extractions from 1000 actuarial articles.
+
+## D3.js Associative Web Thrown In Their
+
+
+## Home Website
+https://cortext.io
+
+## Risk Wiki
+https://riskrunners.com
 
 ## Semantic Calculus
 https://perrydime.com/Begin_With_The_End_In_Mind.pdf
 
 ## First Implementation
 https://nlpbigdata.jeffersonrichards.com/
-
 
 ## About Me
 https://jefferson.cloud
