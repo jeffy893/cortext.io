@@ -50,11 +50,12 @@ or see the uml diagram here: https://www.cortext.io/how-it-works
 
 
 ## Track the Java Routines --> Look for .item
-The LLM has gone through multiple languages and architectures (not to say they got progressively better). I landed on Talend... Search for
+The LLM has gone through multiple languages and architectures (not to say they got progressively better). I landed on Talend... Search for the routines to see where the hashtag extraction takes place.
 |     Purpose        |Location                         |
 |----------------|-------------------------------|
 |"Scripts" in Talend Workflow | [cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines ](cortext_io/AA_cortext_io_linux_0.1/AA_cortext_io_linux/items/integralmass/code/routines)           |
- to see where the hashtag extraction takes place.
+
+ 
 
 ## Perceptron to Clean the Noise
 A Python Perceptron is used to clean the noise, based on hand-selection of the best hashtag extractions from 1000 actuarial articles.
