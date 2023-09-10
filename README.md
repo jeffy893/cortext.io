@@ -8,7 +8,7 @@ expanding Cortext to 20 other languages
 influencing "schema.org" to implement this **Semantic Calculus** across the web
 
 ## In Short
-Powerful versions of Cortext LLM are held by IBM, Google, Twitter, ChatGPT ...
+Powerful LLMs are held by IBM, Google, Twitter, ChatGPT ...
 
 These companies provide consultations on how to ***engineer language*** to best accomplish sophist goals.
 Cortext is a lightweight LLM that extracts "hashtags" and searches the most overlapping "Blue Words" in Wikipedia.
