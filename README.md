@@ -68,7 +68,7 @@ It is my current understanding that email bodies cannot have executable javascri
 https://cortext.io
 
 ## Risk Wiki
-### Cortext ran over risk factors 100s Annual Reports from Public Companies
+### Cortext ran over risk factors of 100s of Annual Reports from Public Companies
 https://riskrunners.com
 
 
