@@ -81,3 +81,5 @@ https://nlpbigdata.jeffersonrichards.com/
 
 ## About Me
 https://jefferson.cloud
+https://richards.consulting
+https://richards.systems
