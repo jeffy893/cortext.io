@@ -18,7 +18,7 @@ This brings together [Richards Systems](https://richards.systems) into one syste
         - May work on 26+ languages
     - Pure linear algebra may be applied to the QUANTITIES (counts) of repeated occurrences of hashtags and wikis over a times series
     - Kibana has built-in query ratios that may find the "Blackrocks per Joe Bidens" - which may be correlated with economic KPI
-- This data can be correlated with a news corpus Cortext collected between 2015-2017 (500K Articles)
+- This data may be correlated with a news corpus Cortext collected between 2015-2017 (500K Articles)
 
 ### Preserve Indigenous Languages
 
