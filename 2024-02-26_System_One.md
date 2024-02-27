@@ -37,7 +37,7 @@ This brings together [Richards Systems](https://richards.systems) into one syste
 
 ### TO BE
 
-- Generate risk portfolios across the hashtags and wikis of the RIsk Runners companies
+- Generate risk portfolios across the hashtags and wikis of the Risk Runners companies
 
 ## SuiteCRM
 
