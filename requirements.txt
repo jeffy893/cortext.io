@@ -2,6 +2,11 @@ wikipedia
 db-sqlite3
 pandas
 psycopg2-binary
-sklearn
 scikit-learn
 boto3
+
+# needed to manually install elasticsearch6 and matplotlib
+# we can use uv to speed up install
+# removed sklearn because it's outdated
+
+# changed Dockerfile to run locally
