@@ -1,53 +1,98 @@
 package routines;
 
+/**
+ * The sentence_format class provides utility methods for formatting and normalizing
+ * text before it's processed by the natural language processing system.
+ * 
+ * This class handles various text formatting tasks such as:
+ * 1. Converting special characters to standard ASCII
+ * 2. Normalizing spacing and punctuation
+ * 3. Handling abbreviations and special formatting cases
+ * 4. Preparing text for word-level processing
+ * 
+ * These utilities ensure consistent text format for accurate subject and concept
+ * extraction in the broader NLP system.
+ */
 public class sentence_format {
     
+    /**
+     * Formats a sentence for SQL storage and processing.
+     * 
+     * This method performs several text normalizations to prepare text for database storage:
+     * 1. Converts currency symbols and other special characters to standard encodings
+     * 2. Handles contractions (e.g., 's, 't, 're) with consistent markers
+     * 3. Normalizes punctuation and special character sequences
+     * 4. Converts accented characters to their non-accented equivalents
+     * 5. Handles abbreviations that contain periods
+     * 6. Processes capitalized acronyms to remove periods
+     * 
+     * @param sent The input sentence to format
+     * @return The formatted sentence ready for SQL storage
+     */
     public static String sent_sql_format(String sent) {
         
-    	
-        sent = sent.replaceAll("\\$([0-9])","dlra$1");
-        sent = sent.replaceAll("([0-9])%","$1prca");
-        sent = sent.replaceAll("([0-9]),([0-9])","$1cmam$2");
-        sent = sent.replaceAll("([0-9])\\.([0-9])","$1dtta$2");
-        sent = sent.replaceAll("No\\.","Nodtta");
-        sent = sent.replaceAll("no\\.","Nodtta");
-        sent = sent.replace("'s","apstas");
-        sent = sent.replace("'t","apstat");
-        sent = sent.replace("'re","apstare");
-        sent = sent.replace("'ve","apstave");
-        sent = sent.replaceAll("\t", " ");
-        sent = sent.replaceAll("\r", " ");
-        sent = sent.replaceAll("\n", " ");
-        sent = sent.replace(".\"", "\".");
-        sent = sent.replace("\"", " &quote ");
-        sent = sent.replace("'", " &apos ");
-        sent = sent.replace("?","?.");
-        sent = sent.replace("!","!.");
-        sent = sent.replace("cf.","cf");
-        sent = sent.replace("e.g.","eg");
-        sent = sent.replace("etc.","etc");
-        sent = sent.replace("i.e.","ie");
+        // Handle currency symbols and numeric formatting
+        sent = sent.replaceAll("\\$([0-9])", "dlra$1");     // Replace $ with "dlra" before numbers
+        sent = sent.replaceAll("([0-9])%", "$1prca");       // Replace % with "prca" after numbers
+        sent = sent.replaceAll("([0-9]),([0-9])", "$1cmam$2"); // Replace comma in numbers with "cmam"
+        sent = sent.replaceAll("([0-9])\\.([0-9])", "$1dtta$2"); // Replace decimal point with "dtta"
+        
+        // Handle common abbreviations with periods
+        sent = sent.replaceAll("No\\.", "Nodtta");
+        sent = sent.replaceAll("no\\.", "Nodtta");
+        
+        // Handle common contractions
+        sent = sent.replace("'s", "apstas");
+        sent = sent.replace("'t", "apstat");
+        sent = sent.replace("'re", "apstare");
+        sent = sent.replace("'ve", "apstave");
+        
+        // Normalize whitespace characters
+        sent = sent.replaceAll("\t", " ");    // Replace tabs with spaces
+        sent = sent.replaceAll("\r", " ");    // Replace carriage returns with spaces
+        sent = sent.replaceAll("\n", " ");    // Replace newlines with spaces
+        
+        // Handle quotation marks and apostrophes
+        sent = sent.replace(".\"", "\".");    // Move period outside of quotes
+        sent = sent.replace("\"", " &quote "); // Replace quotes with special token
+        sent = sent.replace("'", " &apos ");  // Replace apostrophes with special token
+        
+        // Add periods after certain punctuation marks for sentence boundary detection
+        sent = sent.replace("?", "?.");
+        sent = sent.replace("!", "!.");
+        
+        // Handle common abbreviations ending with periods
+        sent = sent.replace("cf.", "cf");
+        sent = sent.replace("e.g.", "eg");
+        sent = sent.replace("etc.", "etc");
+        sent = sent.replace("i.e.", "ie");
+        
+        // Fix double punctuation
         sent = sent.replace(".,", ",");
+        
+        // Convert accented characters to non-accented equivalents
+        // Spanish accented characters (lowercase)
         sent = sent.replace("á", "a");
         sent = sent.replace("é", "e");
         sent = sent.replace("í", "i");
         sent = sent.replace("ó", "o");
         sent = sent.replace("ñ", "n");
         sent = sent.replace("ú", "u");
-        sent = sent.replace("¿", "");
-        sent = sent.replace("¡", "");
-        sent = sent.replace("ü", "u");
+        sent = sent.replace("¿", "");    // Remove Spanish question mark
+        sent = sent.replace("¡", "");    // Remove Spanish exclamation mark
+        sent = sent.replace("ü", "u");   // Replace u with umlaut
+        
+        // Spanish accented characters (uppercase)
         sent = sent.replace("Ñ", "N");
         sent = sent.replace("É", "E");
         sent = sent.replace("Á", "A");
         sent = sent.replace("Í", "I");
         sent = sent.replace("Ó", "O");
         sent = sent.replace("Ú", "U");
-        sent = sent.replace("Ü", "U");
-                
-       
-       
+        sent = sent.replace("Ü", "U");   // Replace U with umlaut
         
+        // Handle acronyms - replace periods in uppercase letter sequences with nothing
+        // Handles acronyms of various lengths (8 to 2 characters)
         sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6$7$8");
         sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6$7");
         sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.([A-Z])\\.", "$1$2$3$4$5$6");
@@ -57,68 +102,81 @@ public class sentence_format {
         sent = sent.replaceAll("([A-Z])\\.([A-Z])\\.", "$1$2");
         sent = sent.replaceAll("([A-Z])\\.", "$1");
         
-        
-        
-        
-
-        
-        
-        
-        
-        
         return sent;
-        
     }
     
-    
-    
-    
-    public static String word_object_format(String sent){
+    /**
+     * Formats text for word-by-word processing by breaking it into clear word units.
+     * 
+     * This method:
+     * 1. Removes non-ASCII characters
+     * 2. Adds spaces around punctuation and special characters
+     * 3. Normalizes multi-space sequences to single spaces
+     * 4. Removes unnecessary whitespace
+     * 5. Handles periods in special cases (ellipses, sentence endings)
+     * 
+     * The output is suitable for word tokenization with space as the delimiter.
+     * 
+     * @param sent The input sentence to format
+     * @return The formatted sentence optimized for word-level processing
+     */
+    public static String word_object_format(String sent) {
         
+        // Remove non-ASCII characters
         String sennt = sent.replaceAll("[^\\p{ASCII}]", "");
         
+        // Add spaces around punctuation and special characters
+        sennt = sennt.replaceAll("([-!@#%*_/{};\\]\\[\\(\\):?<>,.~`|])", " $1 ");
         
-
-        sennt = sennt.replaceAll("([-!@#%*_/{};\\]\\[\\(\\):?<>,.~`|])"," $1 ");
-        sennt = sennt.replaceAll("([^0-9]),","$1 ,");
-        sennt = sennt.replaceAll(",([^0-9])",", $1");
-        sennt = sennt.replace("..."," ... ");
-        sennt = sennt.replace(".."," .. ");
+        // Handle commas more carefully (don't add spaces inside numbers)
+        sennt = sennt.replaceAll("([^0-9]),", "$1 ,");
+        sennt = sennt.replaceAll(",([^0-9])", ", $1");
+        
+        // Handle ellipses and double periods
+        sennt = sennt.replace("...", " ... ");
+        sennt = sennt.replace("..", " .. ");
+        
+        // Remove quotation marks
         sennt = sennt.replace("\"", "");
-        sennt = sennt.replace("\n","");
-        sennt = sennt.replace("\t","");
-        sennt = sennt.replace("\r","");
-        sennt = sennt.replace("! .","!");
-        sennt = sennt.replace("? .","?");
-       
-        sennt = sennt.replace("!  .","!");
-        sennt = sennt.replace("?  .","?");
         
+        // Remove various whitespace characters
+        sennt = sennt.replace("\n", "");
+        sennt = sennt.replace("\t", "");
+        sennt = sennt.replace("\r", "");
         
+        // Fix special punctuation cases to maintain sentence boundaries
+        sennt = sennt.replace("! .", "!");
+        sennt = sennt.replace("? .", "?");
+        sennt = sennt.replace("!  .", "!");
+        sennt = sennt.replace("?  .", "?");
         
         return sennt;
     }
     
-    public static String add_period(String sent_content){
-    	
-    	String sent = "";
-    	
-        if(sent_content.substring(0, 1).matches("\\ ")){
-            if (sent_content.substring(1,2).matches("\\ ")){
-               sent = sent_content.substring(2) +  ".";
+    /**
+     * Adds a period to the end of a sentence if it doesn't already have one.
+     * Also removes leading whitespace for consistent formatting.
+     * 
+     * @param sent_content The input sentence that may need a period
+     * @return The sentence with leading whitespace removed and a period at the end
+     */
+    public static String add_period(String sent_content) {
+        
+        String sent = "";
+        
+        // Remove leading whitespace (one or two spaces)
+        if (sent_content.substring(0, 1).matches("\\ ")) {
+            if (sent_content.substring(1, 2).matches("\\ ")) {
+               sent = sent_content.substring(2) + ".";  // Remove two leading spaces
             }
-            else{
-                sent = sent_content.substring(1) + ".";}}
-        else{
-            sent = sent_content + ".";                           
+            else {
+                sent = sent_content.substring(1) + "."; // Remove one leading space
+            }
         }
-    	
-    	
-    	
-    	return sent;
+        else {
+            sent = sent_content + ".";  // No leading space to remove                        
+        }
+        
+        return sent;
     }
-    
-    
-    
-    
 }

@@ -1,6 +1,5 @@
 package routines;
 
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,20 +7,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-
-
+/**
+ * The sentence_subj_linux class provides subject extraction functionality optimized for Linux environments.
+ * 
+ * This class is a variation of the sentence_subj class, specifically configured to work
+ * with Linux database connections and filesystems. It identifies capitalized words as
+ * potential named entities (subjects), processes concepts and syntactic relations, and
+ * stores the results in a Linux-compatible database format.
+ * 
+ * The implementation follows the same algorithm and state machine logic as other
+ * sentence processing classes, but uses Linux-specific database connection methods.
+ */
 public class sentence_subj_linux {
 
-public static String extract_subj (String sent, int sent_id){
+    /**
+     * Extracts subjects from a given sentence and persists them to a Linux-compatible database.
+     * 
+     * This method analyzes a sentence to identify named entities (capitalized words) 
+     * and other linguistic components. It processes the sentence word by word,
+     * tracking state transitions and building subject phrases when appropriate.
+     * Components are stored in a tree structure to maintain their original order.
+     * 
+     * @param sent The input sentence to be processed
+     * @param sent_id A unique identifier for the sentence
+     * @return A string containing all identified subjects delimited by '@'
+     */
+    public static String extract_subj(String sent, int sent_id) {
         
-    	java.util.Date date= new java.util.Date();
-        
+        // Create timestamp for logging
+        java.util.Date date = new java.util.Date();
         Timestamp time_stamp = new Timestamp(date.getTime());
         String time = time_stamp.toString();
-    	
-    	
+        
+        // Initialize a set of stop words (common words to ignore)
         HashSet<String> ref_logic = new HashSet<String>();
         
+        // English stop words
         ref_logic.add("and");
         ref_logic.add("or");
         ref_logic.add("in");
@@ -40,6 +61,8 @@ public static String extract_subj (String sent, int sent_id){
         ref_logic.add("why");
         ref_logic.add("Y");
         ref_logic.add("O");
+        
+        // Spanish stop words
         ref_logic.add("en");
         ref_logic.add("el");
         ref_logic.add("los");
@@ -64,285 +87,287 @@ public static String extract_subj (String sent, int sent_id){
         ref_logic.add("se");
         ref_logic.add("no");
         
-        
-        
-        word_format c_words = new word_format (); 
-        
+        // Helper for capitalization detection
+        word_format c_words = new word_format();
            // ********************** To Word Cap
-
         
+        // Output string to collect all identified subjects
         String full_subj = "";
 
+        // Split input sentence into words
         String[] word = sent.split("\\ ");
 
-        String subj = "";
-        String subj_2 = "";
-        String subj_3 = "";
-        boolean upp = false;
+        // Variables for tracking state and subject building
+        String subj = "";        // Current subject being built
+        String subj_2 = "";      // Temporary storage for subject
+        String subj_3 = "";      // Additional temporary storage
+        boolean upp = false;     // Flag for capitalized words
         
+        // State tracker: -1 = no previous word, 0 = previous word is capitalized, 
+        // 1 = previous word is a logic word following a capitalized word
+        // >1 = multiple consecutive logic words
         int b = -1;
         
-        
-        
+        // Buffer for non-subject, non-relation words (concepts)
         String concept = "";
         
+        // Word counter for logging
         int wordInt = 0;
         
+        // Logging section start
         System.out.println("--------------------------------------------");
         System.out.println("----------------" + time + "----------------");
         System.out.println("--------------------------------------------");
         
-        
-        
-        
+        // TreeMap to store sentence components in order of appearance
+        // Key: position in original text, Value: component data
         TreeMap<Integer, phen_phen> tree = new TreeMap<Integer, phen_phen>();
         
-        
+        // Position tracker for tree insertion
         int treeIndex = -1;
         
-        
-        for (int word_order = 0; word_order < word.length; word_order++){
+        // Main processing loop - iterate through each word
+        for (int word_order = 0; word_order < word.length; word_order++) {
             
-        	wordInt++;
-        	
-        	System.out.println("Word number " + wordInt + " of " + word.length);
-        	
-        	
-        	int syn_id = 0;
-        	
-        	
+            wordInt++;
+            
+            System.out.println("Word number " + wordInt + " of " + word.length);
+            
+            // Initial syntactic ID is 0 (no relation)
+            int syn_id = 0;
+            
+            // Word cleaning and normalization process
+            // Remove multiple spaces
             String new_word_8 = word[word_order].replaceAll("\\s\\s\\s\\s", "");
-            
             String new_word_7 = new_word_8.replaceAll("\\s\\s\\s", "");
-            
             String new_word_6 = new_word_7.replaceAll("\\s\\s", "");
-            
             String new_word_5 = new_word_6.replaceAll("\\s", "");
             
+            // Remove non-alphanumeric characters
             String new_word_4 = new_word_5.replaceAll("[^A-Za-z0-9 ]", "");
             
+            // Additional cleanup for edge cases
             String new_word_3 = new_word_4.replaceAll("\\s[^A-Za-z0-9 ]", "");
-            
             String new_word_2 = new_word_3.replaceAll("[^A-Za-z0-9 ]\\s", "");
+            String new_word = new_word_2.replaceAll("\\s[^A-Za-z0-9 ]\\s", "");   //Remove Symbols other than letters or numbers
             
-            String new_word = new_word_2.replaceAll("\\s[^A-Za-z0-9 ]\\s", "");         //Remove Symbols other than letters or numbers
-            
-            
-            if( new_word!= null && new_word.length() > 0){                              //If the word is not null not empty
-            
-            upp = c_words.cap_word(new_word);                                           //True if word is Capitalized
-            
+            // Check if word is capitalized (only if it's not empty)
+            if (new_word != null && new_word.length() > 0) {                      //If the word is not null not empty
+                upp = c_words.cap_word(new_word);                                 //True if word is Capitalized
             }
             
-            
-            if (upp == true ){                                                          //If current word is capitalized
+            // CASE 1: Current word is capitalized (potential subject)
+            if (upp == true) {
                 
-            	
-            	if(concept != ""){
-            		if(concept != null && concept.length() > 1){
+                // If we have a concept buffer, commit it first
+                if (concept != "") {
+                    if (concept != null && concept.length() > 1) {
             		//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
-            		
-            		treeIndex = sent.indexOf(concept.substring(1));
-            		
-            		if(treeIndex == -1 && !tree.isEmpty())
-                		treeIndex = tree.lastKey() + 1;
-            		
-            		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
-            		
-            		}
-            		concept = "";
-            		
-            	}
-               
-                subj = subj + new_word + " ";                                           //Add word to subject string
-                
-                if(word_order == word.length-1){                                        //If the current word is the last word
-                    subj = subj.substring(0,subj.length()-1);                           //Remove ending (space) from subject
-                    full_subj = full_subj + "@" + subj; 
-                    
-                    if(subj != null && subj.length() > 1){
-                        //connect_phen.phen_summary(sent_id, subj, 0, 1, 0, 0);
-                		treeIndex = sent.indexOf(subj);
-                		
-                		if(treeIndex == -1 && !tree.isEmpty())
-                    		treeIndex = tree.lastKey() + 1;
-                		
-                		tree.put(treeIndex, new phen_phen(sent_id, subj, 0, 1, 0, 0));
-                        }
-                    
-                    subj = "";
-                }
-                b = 0;  
-               														//Previous word is capitalized
-            }
-            
-            else {                                                                      //If current word is not capitalized
-               
-                if(b == 0){                                                             //If previous word is capitalized
-                    
-                    if(concept != ""){
-                    	if(concept != null && concept.length() > 1){
-                    	//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
-                		treeIndex = sent.indexOf(concept.substring(1));
-                		
-                		if(treeIndex == -1 && !tree.isEmpty())
-                    		treeIndex = tree.lastKey() + 1;
-                		
-                		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
-                    	}
-                    	concept = "";
-                    	
+
+                        // Find position in original sentence
+                        treeIndex = sent.indexOf(concept.substring(1));
+                        
+                        // If position not found, append at the end
+                        if (treeIndex == -1 && !tree.isEmpty())
+                            treeIndex = tree.lastKey() + 1;
+                        
+                        // Add to tree with concept type (0, 0, 0, 1)
+                        tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
                     }
-                	
-                	
-                    subj_2 = subj;  
-                    //Store previous subject into subj_2
-                    if(word_order == word.length-1 && subj!="" && subj!=null && subj.length() > 0){                          //the current word is the last word  and subj is not empty                       //Remove ending (space) from subject
+                    concept = "";  // Clear concept buffer
+                }
+               
+                // Add current capitalized word to subject buffer
+                subj = subj + new_word + " ";
+                
+                // If this is the last word in the sentence
+                if (word_order == word.length - 1) {
+                    // Remove trailing space
+                    subj = subj.substring(0, subj.length() - 1);
+                    // Add to output with delimiter
+                    full_subj = full_subj + "@" + subj;
+                    
+                    if (subj != null && subj.length() > 1) {
+                        // Find position in original sentence
+                        treeIndex = sent.indexOf(subj);
+                        
+                        if (treeIndex == -1 && !tree.isEmpty())
+                            treeIndex = tree.lastKey() + 1;
+                        
+                        // Add to tree with subject type (0, 1, 0, 0)
+                        tree.put(treeIndex, new phen_phen(sent_id, subj, 0, 1, 0, 0));
+                    }
+                    
+                    subj = "";  // Clear subject buffer
+                }
+                // Set state: previous word is capitalized
+                b = 0;
+            }
+            // CASE 2: Current word is NOT capitalized
+            else {
+                // Sub-case 2.1: Previous word was capitalized (b=0)
+                if (b == 0) {
+                    
+                    // Process any pending concept
+                    if (concept != "") {
+                        if (concept != null && concept.length() > 1) {
+                            treeIndex = sent.indexOf(concept.substring(1));
+                            
+                            if (treeIndex == -1 && !tree.isEmpty())
+                                treeIndex = tree.lastKey() + 1;
+                            
+                            tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+                        }
+                        concept = "";
+                    }
+                    
+                    // Store current subject buffer for processing
+                    subj_2 = subj;
+                    
+                    // If last word in sentence, finalize the subject
+                    if (word_order == word.length - 1 && subj != "" && subj != null && subj.length() > 0) {
                         full_subj = full_subj + "@" + subj_2;
-                        if(subj_2 != null && subj_2.length() > 1){
-                        //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
-                		treeIndex = sent.indexOf(subj_2);
-                		
-                		if(treeIndex == -1 && !tree.isEmpty())
-                    		treeIndex = tree.lastKey() + 1;
-                		
-                		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        
+                        if (subj_2 != null && subj_2.length() > 1) {
+                            treeIndex = sent.indexOf(subj_2);
+                            
+                            if (treeIndex == -1 && !tree.isEmpty())
+                                treeIndex = tree.lastKey() + 1;
+                            
+                            tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
                         }
                         
                         subj = "";
-                        b = -1;                                                                         //Add subject to array of subjects
+                        b = -1;  // Reset state - no active subject
                     }
-                    if(word_order != word.length-1 && new_word != null && new_word != "" && new_word.length() > 0){                      //If current word is not null nor empty
-                        if (ref_logic.contains(new_word) ) {                                //If current word is a logic word
-                        
-                        
-                        	
-                        	
-                        subj = subj + new_word + " ";
-                        b++;                                                                //Add logic word to previous subject
-                        }else if (!ref_logic.contains(new_word) && subj_2 != ""){                                                          //Not a logic
-                            
+                    
+                    // If not the last word and the current word is valid
+                    if (word_order != word.length - 1 && new_word != null && new_word != "" && new_word.length() > 0) {
+                        // Check if current word is a stop word
+                        if (ref_logic.contains(new_word)) {
+                            // If it's a stop word, add it to the subject
+                            // (allows for subjects like "United States of America")
+                            subj = subj + new_word + " ";
+                            b++;  // Increment state counter
+                        } 
+                        // If not a stop word and we have a subject buffer
+                        else if (!ref_logic.contains(new_word) && subj_2 != "") {
+                            // Finalize the current subject
                             full_subj = full_subj + "@" + subj_2;
-                            if(subj_2 != null && subj_2.length() > 1){
+                            
+                            if (subj_2 != null && subj_2.length() > 1) {
                             //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
-                    		treeIndex = sent.indexOf(subj_2);
-                    		
-                    		if(treeIndex == -1 && !tree.isEmpty())
-                        		treeIndex = tree.lastKey() + 1;
-                    		
-                    		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                                treeIndex = sent.indexOf(subj_2);
+                                
+                                if (treeIndex == -1 && !tree.isEmpty())
+                                    treeIndex = tree.lastKey() + 1;
+                                
+                                tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
                             }
                             
-                            subj = "";
-                            b = -1;
+                            subj = "";  // Clear subject buffer
+                            b = -1;     // Reset state
                         }
                     }
-                    
-                                                       
-                }else if(b==1){                                                         //if the current word is not capitalized
-                                                                                        //and the previous word was not capitalized          
-                    
-                    if(ref_logic.contains(new_word) && new_word!=null && new_word != "" && new_word.length() > 0){                        //If current word is not null nor empty
+                }
+                // Sub-case 2.2: Previous word was a stop word after a capitalized word (b=1)
+                else if (b == 1) {
+                    // If current word is a stop word and valid
+                    if (ref_logic.contains(new_word) && new_word != null && new_word != "" && new_word.length() > 0) {
                         
-                    	if(concept != ""){
-                    		if(concept != null && concept.length() > 1){
-                    		//connect_phen.phen_summary(sent_id, concept.substring(1), 0, 0, 0, 1);
-                    		treeIndex = sent.indexOf(concept.substring(1));
-                    		
-                    		if(treeIndex == -1 && !tree.isEmpty())
-                        		treeIndex = tree.lastKey() + 1;
-                    		
-                    		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
-                    		}
-                    		concept = "";
-                    		
-                    	}
-                    	
-                    	
-                    	
-                        subj = subj + new_word + " ";                               //Add current word to previous subj
-                    
-                        b++;
-                    
-                    }else if (!ref_logic.contains(new_word) && new_word != "" && subj!="" && subj!=null && subj.length() > 0){           //If current word is not a logic word  --- Add words to ref_logic
-                            full_subj = full_subj + "@" + subj_2; 
-                            if(subj_2 != null && subj_2.length() > 1){
-                            //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
-                    		treeIndex = sent.indexOf(subj_2);
-                    		
-                    		if(treeIndex == -1 && !tree.isEmpty())
-                        		treeIndex = tree.lastKey() + 1;
-                    		
-                    		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        // Process any pending concept
+                        if (concept != "") {
+                            if (concept != null && concept.length() > 1) {
+                                treeIndex = sent.indexOf(concept.substring(1));
+                                
+                                if (treeIndex == -1 && !tree.isEmpty())
+                                    treeIndex = tree.lastKey() + 1;
+                                
+                                tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
                             }
-                            											//Add subject to array of subjects
-                            subj = "";                                                  //Set previous subject to ""
-                            b = 0;                                                      
-                        
-                        
+                            concept = "";
                         }
-                
-                    
-                } else if(b>1){
-                
-                    if (subj != "" &&  subj!=null && subj.length() > 0 && new_word != "" && subj_2 != "" && subj_2.length() > 0){
-
-                    subj_3 = subj_2.substring(0,subj_2.length()-1);
-                    full_subj = full_subj + "@" + subj_2;
-                    if(subj_2 != null && subj_2.length() > 1){
-                    //connect_phen.phen_summary(sent_id, subj_2, 0, 1, 0, 0);
-            		treeIndex = sent.indexOf(subj_2);
-            		
-            		if(treeIndex == -1 && tree != null)
-                		treeIndex = tree.lastKey() + 1;
-            		
-            		tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        
+                        // Continue building the subject with this stop word
+                        subj = subj + new_word + " ";
+                        b++;  // Increment state counter
                     }
-                    
-                    subj = "";
-                    b++;
+                    // If not a stop word and we have valid buffers
+                    else if (!ref_logic.contains(new_word) && new_word != "" && subj != "" && subj != null && subj.length() > 0) {
+                        // Finalize the subject
+                        full_subj = full_subj + "@" + subj_2;
+                        
+                        if (subj_2 != null && subj_2.length() > 1) {
+                            treeIndex = sent.indexOf(subj_2);
+                            
+                            if (treeIndex == -1 && !tree.isEmpty())
+                                treeIndex = tree.lastKey() + 1;
+                            
+                            tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        }
+                        
+                        subj = "";  // Clear subject buffer
+                        b = 0;      // Reset state to 0 (not -1) - important for state machine
                     }
-                    
+                }
+                // Sub-case 2.3: Multiple consecutive stop words after capitalized (b>1)
+                else if (b > 1) {
+                    // If we have valid buffers
+                    if (subj != "" && subj != null && subj.length() > 0 && new_word != "" && subj_2 != "" && subj_2.length() > 0) {
+                        // Process the subject, removing trailing space
+                        subj_3 = subj_2.substring(0, subj_2.length() - 1);
+                        full_subj = full_subj + "@" + subj_2;
+                        
+                        if (subj_2 != null && subj_2.length() > 1) {
+                            treeIndex = sent.indexOf(subj_2);
+                            
+                            if (treeIndex == -1 && tree != null)
+                                treeIndex = tree.lastKey() + 1;
+                            
+                            tree.put(treeIndex, new phen_phen(sent_id, subj_2, 0, 1, 0, 0));
+                        }
+                        
+                        subj = "";  // Clear subject buffer
+                        b++;        // Increment state counter
+                    }
                 }
                 
+                // Check if word is a syntactic relation - using Linux-specific connection
                 syn_id = connect_phen_sqlite_linux.syn_search_word(new_word);
-                		
-                if(syn_id != 0){
-                	if(new_word != null && new_word.length() > 1){
-                		//connect_phen.phen_summary(sent_id, new_word, syn_id, 0, 0, 0);
-                		treeIndex = sent.indexOf(new_word);
-                		
-                		if(treeIndex == -1 && !tree.isEmpty())
-                    		treeIndex = tree.lastKey() + 1;
-                		
-                		tree.put(treeIndex, new phen_phen(sent_id, new_word, syn_id, 0, 0, 0));
-                	}
+                
+                // If it's a syntactic relation, add it to the tree
+                if (syn_id != 0) {
+                    if (new_word != null && new_word.length() > 1) {
+                        treeIndex = sent.indexOf(new_word);
+                        
+                        if (treeIndex == -1 && !tree.isEmpty())
+                            treeIndex = tree.lastKey() + 1;
+                        
+                        // Add to tree with syntactic relation type (syn_id, 0, 0, 0)
+                        tree.put(treeIndex, new phen_phen(sent_id, new_word, syn_id, 0, 0, 0));
+                    }
                 }
                 
-                if( syn_id == 0 ){
-                concept += " " + new_word;   
-
+                // If not a syntactic relation, add to concept buffer
+                if (syn_id == 0) {
+                    concept += " " + new_word;
                 }
                 
-                if((syn_id != 0 && concept != "") || (word_order == word.length-1 && concept != "")){
-                	
-                	treeIndex = sent.indexOf(concept.substring(1));
-            		
-                	if(treeIndex == -1 && !tree.isEmpty())
-                		treeIndex = tree.lastKey() + 1;
-                	
-            		tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
-                	
-            		concept = "";
-            		
+                // If we found a syntactic relation or reached end of sentence,
+                // process any pending concept
+                if ((syn_id != 0 && concept != "") || (word_order == word.length - 1 && concept != "")) {
+                    treeIndex = sent.indexOf(concept.substring(1));
+                    
+                    if (treeIndex == -1 && !tree.isEmpty())
+                        treeIndex = tree.lastKey() + 1;
+                    
+                    tree.put(treeIndex, new phen_phen(sent_id, concept.substring(1), 0, 0, 0, 1));
+                    
+                    concept = "";  // Clear concept buffer
                 }
-                
-                
-               
             }
-                
             
-
+            // Clean up temporary variables to prevent memory leaks
             new_word = null;
             new_word_2 = null;
             new_word_3 = null;
@@ -351,18 +376,21 @@ public static String extract_subj (String sent, int sent_id){
             new_word_6 = null;
             new_word_7 = null;
             new_word_8 = null;
-
-        }    // word loop
+        }
         
-        for(Map.Entry<Integer,phen_phen> entry : tree.entrySet()) {
-        	  phen_phen phenValue = entry.getValue();
-        	  
-        	  if(phenValue.phen != null && phenValue.phen != "" && phenValue.phen.length() > 0)
-        	  connect_phen_sqlite_linux.phen_summary(phenValue.sent_id, phenValue.phen, phenValue.syn_id, phenValue.subj_summary_id, phenValue.concept_id);
-        	  
-        	  
-        	}
+        // Process the tree in chronological order and persist to database
+        // Note: Uses Linux-specific database connection method
+        for (Map.Entry<Integer, phen_phen> entry : tree.entrySet()) {
+            phen_phen phenValue = entry.getValue();
+            
+            // Store valid entries in the database using Linux-compatible connection
+            if (phenValue.phen != null && phenValue.phen != "" && phenValue.phen.length() > 0)
+                connect_phen_sqlite_linux.phen_summary(phenValue.sent_id, phenValue.phen, 
+                                                  phenValue.syn_id, phenValue.subj_summary_id, 
+                                                  phenValue.concept_id);
+        }
         
+        // Clean up all resources
         ref_logic.clear();
         word = null;
         subj = null;
@@ -370,35 +398,44 @@ public static String extract_subj (String sent, int sent_id){
         subj_3 = null;
         tree.clear();
         concept = null;
-        subj = null;
         
-        
-        if(full_subj!=""){
-        return full_subj.substring(1);
-        }else{
-        	return full_subj;
+        // Return the concatenated subjects, removing the leading delimiter if present
+        if (full_subj != "") {
+            return full_subj.substring(1);
+        } else {
+            return full_subj;
         }
-        	
-        
-        
-        
-    }  // method
+    }
     
-    
-    
-  public static String subj_unit(String subj){
+    /**
+     * Generates all possible combinations of words in a subject phrase.
+     * This is useful for entity recognition and subject classification.
+     * 
+     * For example, "United States of America" would generate combinations:
+     * ["United", "States", "America", "United States", "States of America", 
+     *  "United States of America"]
+     * 
+     * @param subj The subject phrase to process
+     * @return A string containing all word combinations delimited by '@'
+     */
+    public static String subj_unit(String subj) {
         
-	  String subj_unit = "";
+        String subj_unit = "";
        
+        // Helper for combinatorial processing
         perm_comb perm = new perm_comb();
         
+        // Generate all combinations of words in the subject
+        List<String> subj_combo = new ArrayList<String>();
+        subj_combo = perm.concept_word_comb(subj);
         
-        List<String> subj_combo = new ArrayList<String>();        
-        subj_combo = perm.concept_word_comb(subj);        //Perm_Comb   
-            
-         
-            
-  /*          String subj_code = "";
+        /* 
+         * NOTE: The commented block below appears to be legacy code for
+         * generating subject codes and storing them in a database.
+         * It's kept for historical reference but not currently used.
+         */
+        /*
+            String subj_code = "";
             
                 String[] code_unit = subj.split("\\ ");
                 
@@ -458,9 +495,10 @@ public static String extract_subj (String sent, int sent_id){
              
                          
                          */
-                         
-                         
-            //int max_subj = connect.max_subj();
+        
+        // Additional commented legacy code for subject unit storage
+        /*
+            int max_subj = connect.max_subj();
             
             for(String subj_combo_unit : subj_combo){
                 
@@ -470,27 +508,14 @@ public static String extract_subj (String sent, int sent_id){
                 
             
                 //connect.subj_unit(max_subj, subj_combo_unit, avg_name_id);      //  Insert Subj Unit
-       
-                subj_unit = subj_unit + "@" + subj_combo_unit;
-                
-            }
+        */
         
+        // Add each combination to the result string
+        for (String subj_combo_unit : subj_combo) {
+            subj_unit = subj_unit + "@" + subj_combo_unit;
+        }
         
-        
-           
-         
-             
-            
+        // Remove the leading delimiter and return
         return subj_unit.substring(1);
-        
-        
-        }   
-        
-        
-        
-        
-        
-        
-    
-
+    }
 }
