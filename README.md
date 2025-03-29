@@ -79,7 +79,11 @@ https://perrydime.com/Begin_With_The_End_In_Mind.pdf
 ## First Implementation
 https://nlpbigdata.jeffersonrichards.com/
 
+## 10 Year Project in AI
+https://wiki.richards.systems
+
+
 ## About Me
 https://jefferson.cloud
-https://richards.consulting
+https://richards.plus
 https://richards.systems
