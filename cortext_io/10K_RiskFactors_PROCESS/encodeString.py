@@ -1,7 +1,6 @@
-
 """
-This scrip encodes a string into a number list
-the mapping assumes that theres are only upper and lower case alphabetical char
+This script encodes a string into a number list
+the mapping assumes that there are only upper and lower case alphabetical characters
 and spaces
 
 Example Encoding
@@ -13,34 +12,50 @@ Example Encoding
 Methods
 encodeString(input="String")
 decodeString(input=[1,2,3,000...]) where len(input) = 589
-    return Sting
+    return String
 
 """
-
 
 import re
 
 
-# Returns number from letter
-
-
 def encodeString(input="Test"):
+    """
+    Encode a string into a fixed-length numeric array.
+    
+    This function converts a string into a numeric representation by mapping each character
+    to a specific number according to a predefined dictionary. The resulting array has a 
+    fixed length of 589 elements, with zeros padding any unused positions.
+    
+    The function also:
+    1. Removes all non-alphanumeric characters, replacing them with spaces
+    2. Normalizes multiple spaces to single spaces
+    3. Truncates the input to a maximum of 589 characters
+    
+    Args:
+        input (str): The string to encode, defaults to "Test"
+        
+    Returns:
+        list: A fixed-length list of 589 integers representing the encoded string
+    """
     
     size = len(input)
     
+    # Clean the input string: replace non-alphanumeric chars with spaces
     input = re.sub('[^0-9a-zA-Z]+', ' ', input)
+    # Normalize multiple spaces to single spaces
     input = re.sub('\s+', ' ', input)
+    # Truncate to maximum length of 589
     input = input[:589]
     
     
     # Create list of characters in string
-    subInput = [input[i:i+1] for i in range(0,size)]
+    subInput = [input[i:i+1] for i in range(0, size)]
     
-    # Instantiate encoding list
-    output = [0 for i in range(0,589)]
+    # Instantiate encoding list with zeros (fixed length of 589)
+    output = [0 for i in range(0, 589)]
     
-    # Use a dictionary
-    
+    # Use a dictionary for character-to-number mapping
     stringMap = {   "a":1,
                     "b":2,
                     "c":3,
@@ -110,27 +125,37 @@ def encodeString(input="Test"):
         elif subInput[i] == 'd':
             output[i] = 4
     """
-    # Returns number from letter
+    # Note: The commented code above shows an alternative approach using if-elif statements
+    # instead of the dictionary-based approach used below
     
-    for i in range(0,size):
+    # Map each character to its corresponding number using the dictionary
+    for i in range(0, size):
         for letter, number in stringMap.items():
             if subInput[i] in letter:
                 output[i] = number
     
-    
     return output
     
-# Returns letter from number
 
 def decodeString(input=[46, 8, 5, 53, 49, 8, 15, 12, 5, 53, 49, 9, 4, 5, 53, 49, 15, 18, 12, 4]):
+    """
+    Decode a numeric array back into a string.
     
+    This function converts a numeric array (created by encodeString) back into its
+    original string representation by mapping each number back to its corresponding character.
     
+    Args:
+        input (list): A list of integers representing the encoded string.
+                     Default is an example encoding of "The Whole Wide World"
+        
+    Returns:
+        str: The decoded string
+    """
     
-    # Instantiate encoding list
+    # Instantiate output string
     output = ""
     
-    # Use a dictionary
-    
+    # Use the same dictionary as in encodeString for consistency
     stringMap = {   "a":1,
                     "b":2,
                     "c":3,
@@ -200,13 +225,13 @@ def decodeString(input=[46, 8, 5, 53, 49, 8, 15, 12, 5, 53, 49, 9, 4, 5, 53, 49,
         elif subInput[i] == 'd':
             output[i] = 4
     """
+    # Note: The commented code above is from encodeString and is not relevant for decoding,
+    # but kept for reference to the alternative approach
     
-    # Returns letter from number
-    
+    # Map each number back to its corresponding character
     for i in input:
         for letter, number in stringMap.items():
             if i == number:
                 output += letter
-    
     
     return output
