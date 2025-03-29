@@ -536,7 +536,7 @@ risk_factors.rename(columns = {'SENT_CONTENT':'RISK_FACTORS'}, inplace = True)
 #print(risk_factors[["RISK_FACTORS"]].to_html(index=False))
 
 
-for name, phen in phen_wiki["PHEN"].drop_duplicates().dropna().iteritems():
+for name, phen in phen_wiki["PHEN"].drop_duplicates().dropna().items():
     risk_factors["RISK_FACTORS"] = risk_factors["RISK_FACTORS"].str.replace(phen,'<font color="blue">' + phen + "</font>")
 
 

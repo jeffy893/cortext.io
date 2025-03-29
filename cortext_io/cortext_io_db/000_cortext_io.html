@@ -62,74 +62,98 @@ var width = 3000,
 // setup links
 
 var links =     [
-{source: "START_HERE", target: "1: Airfares ", fill: "#fc8eac"},
-{source: "1: Airfares ", target: "1: eased from last years highs", fill: "#fc8eac"},
-{source: "1: Airfares ", target: "3: been climbing since", fill: "#fcc200"},
-{source: "3: been climbing since", target: "3: December ", fill: "#fcc200"},
-{source: "3: December ", target: "3: propelled by diminished supplies", fill: "#fcc200"},
-{source: "3: propelled by diminished supplies", target: "3: winter storms shut down refineries", fill: "#fcc200"},
-{source: "3: been climbing since", target: "4: also pushed up prices as millions", fill: "#9b870c"},
-{source: "4: also pushed up prices as millions", target: "4: Lunar New Year ", fill: "#9b870c"},
-{source: "4: Lunar New Year ", target: "4: restrictions", fill: "#9b870c"},
-{source: "4: also pushed up prices as millions", target: "9: Ukraine in February ", fill: "#f8b878"},
-{source: "9: Ukraine in February ", target: "9: sanctions curtailed", fill: "#f8b878"},
-{source: "9: Ukraine in February ", target: "10: Last June SP Globals ", fill: "#c90016"},
-{source: "10: Last June SP Globals ", target: "10: highest level ever", fill: "#c90016"},
-{source: "10: Last June SP Globals ", target: "11: Meanwhile the US ", fill: "#fe28a2"},
-{source: "11: Meanwhile the US ", target: "11: lowest inventories", fill: "#fe28a2"},
-{source: "11: lowest inventories", target: "11: Energy Information Administration ", fill: "#fe28a2"},
-{source: "11: Meanwhile the US ", target: "15: jet fuels price", fill: "#fad6a5"},
-{source: "15: jet fuels price", target: "15: premium charged by", fill: "#fad6a5"},
-{source: "15: premium charged by", target: "15: distributors", fill: "#fad6a5"},
-{source: "15: distributors", target: "15: crudeoil prices", fill: "#fad6a5"},
-{source: "15: jet fuels price", target: "16: The SP Global ", fill: "#9bddff"},
-{source: "16: The SP Global ", target: "17: jet fuels premium", fill: "#006994"},
-{source: "17: jet fuels premium", target: "17: surged recently", fill: "#006994"},
-{source: "17: jet fuels premium", target: "18: Although Gulf Coast ", fill: "#967117"},
-{source: "18: Although Gulf Coast ", target: "18: jet fuel typically trades at", fill: "#967117"},
-{source: "18: Although Gulf Coast ", target: "19: Airfares ", fill: "#a40000"},
-{source: "19: Airfares ", target: "19: up sharply from", fill: "#a40000"},
-{source: "19: up sharply from", target: "19: defined parts", fill: "#a40000"},
-{source: "19: Airfares ", target: "20: fuel prices boosted airfares last year", fill: "#ff3800"},
-{source: "20: fuel prices boosted airfares last year", target: "20: worker shortages higher labor costs", fill: "#ff3800"},
-{source: "20: worker shortages higher labor costs", target: "20: strong demand from consumers eager", fill: "#ff3800"},
-{source: "20: strong demand from consumers eager", target: "20: splurge on", fill: "#ff3800"},
-{source: "20: fuel prices boosted airfares last year", target: "21: recent runup", fill: "#a3c1ad"},
-{source: "21: recent runup", target: "21: jetfuel prices", fill: "#a3c1ad"},
-{source: "21: jetfuel prices", target: "21: fully priced into airfares analysts", fill: "#a3c1ad"},
-{source: "21: recent runup", target: "22: flight activity particularly", fill: "#ff6fff"},
-{source: "22: flight activity particularly", target: "22: cancellation", fill: "#ff6fff"},
-{source: "22: cancellation", target: "22: travel restrictions on", fill: "#ff6fff"},
-{source: "22: flight activity particularly", target: "25: significantly lagged", fill: "#96c8a2"},
-{source: "25: significantly lagged", target: "25: Antoine Halff", fill: "#96c8a2"},
-{source: "25: significantly lagged", target: "26: prepandemic level", fill: "#000080"},
-{source: "26: prepandemic level", target: "26: North America ", fill: "#000080"},
-{source: "26: prepandemic level", target: "29: sister helped out", fill: "#465945"},
-{source: "29: sister helped out", target: "29: using air miles", fill: "#465945"},
-{source: "29: using air miles", target: "29: couldnt find one", fill: "#465945"},
-{source: "29: sister helped out", target: "33: coming from", fill: "#b7410e"},
-{source: "33: coming from", target: "34: recent rise", fill: "#de3163"},
-{source: "34: recent rise", target: "34: fuel prices according", fill: "#de3163"},
-{source: "34: recent rise", target: "35: high prices", fill: "#79443b"},
-{source: "35: high prices", target: "35: lead economist", fill: "#79443b"},
-{source: "35: lead economist", target: "35: Hayley Berg ", fill: "#79443b"},
-{source: "35: Hayley Berg ", target: "35: increased fuel costs", fill: "#79443b"},
-{source: "35: increased fuel costs", target: "35: staffing constraints by", fill: "#79443b"},
-{source: "35: staffing constraints by", target: "35: capacity", fill: "#79443b"},
-{source: "35: capacity", target: "35: Jacksonville ", fill: "#79443b"},
-{source: "35: Jacksonville ", target: "35: with less competition", fill: "#79443b"},
-{source: "35: with less competition", target: "35: inflated fares", fill: "#79443b"},
-{source: "35: high prices", target: "37: year airlines reaction", fill: "#f28500"},
-{source: "37: year airlines reaction", target: "37: rising fuel costs will probably", fill: "#f28500"},
-{source: "37: year airlines reaction", target: "38: jet fuels run could", fill: "#e6e6fa"},
-{source: "38: jet fuels run could", target: "38: oil markets reaction", fill: "#e6e6fa"},
-{source: "38: oil markets reaction", target: "38: Vikas Dwivedi ", fill: "#e6e6fa"},
-{source: "38: Vikas Dwivedi ", target: "38: global oil", fill: "#e6e6fa"},
-{source: "38: global oil", target: "38: gas strategist at", fill: "#e6e6fa"},
-{source: "38: gas strategist at", target: "38: Macquarie Group", fill: "#e6e6fa"},
-{source: "38: jet fuels run could", target: "39: Refiners in China ", fill: "#5f9ea0"},
-{source: "39: Refiners in China ", target: "39: increase production", fill: "#5f9ea0"},
-{source: "39: Refiners in China ", target: "START_HERE", fill: "#5f9ea0"}]; 
+{source: "START_HERE", target: "1: Topological ", fill: "#b31b1b"},
+{source: "1: Topological ", target: "1: topological ordering", fill: "#b31b1b"},
+{source: "1: topological ordering", target: "1: directed graph", fill: "#b31b1b"},
+{source: "1: directed graph", target: "1: linear ordering", fill: "#b31b1b"},
+{source: "1: linear ordering", target: "1: every directed edge uv from vertex u", fill: "#b31b1b"},
+{source: "1: every directed edge uv from vertex u", target: "1: vertex v u comes", fill: "#b31b1b"},
+{source: "1: Topological ", target: "2: graph may represent tasks", fill: "#446ccf"},
+{source: "2: graph may represent tasks", target: "2: edges may represent constraints", fill: "#446ccf"},
+{source: "2: edges may represent constraints", target: "2: one task must", fill: "#446ccf"},
+{source: "2: one task must", target: "2: application", fill: "#446ccf"},
+{source: "2: application", target: "2: topological ordering", fill: "#446ccf"},
+{source: "2: topological ordering", target: "2: valid sequence", fill: "#446ccf"},
+{source: "2: graph may represent tasks", target: "6: Topological ", fill: "#fcc200"},
+{source: "6: Topological ", target: "6: applications especially", fill: "#fcc200"},
+{source: "6: applications especially", target: "6: ranking problems such as feedback arc set", fill: "#fcc200"},
+{source: "6: Topological ", target: "12: application", fill: "#50c878"},
+{source: "12: application", target: "12: graph represent", fill: "#50c878"},
+{source: "12: graph represent", target: "12: milestones", fill: "#50c878"},
+{source: "12: milestones", target: "12: edges represent tasks", fill: "#50c878"},
+{source: "12: edges represent tasks", target: "12: between one milestone", fill: "#50c878"},
+{source: "12: application", target: "14: computer science applications", fill: "#ed1c24"},
+{source: "14: computer science applications", target: "14: instruction scheduling ordering", fill: "#ed1c24"},
+{source: "14: instruction scheduling ordering", target: "14: formula cell evaluation", fill: "#ed1c24"},
+{source: "14: formula cell evaluation", target: "14: recomputing formula values", fill: "#ed1c24"},
+{source: "14: recomputing formula values", target: "14: spreadsheets logic synthesis", fill: "#ed1c24"},
+{source: "14: spreadsheets logic synthesis", target: "14: compilation tasks", fill: "#ed1c24"},
+{source: "14: compilation tasks", target: "14: makefiles data serialization", fill: "#ed1c24"},
+{source: "14: makefiles data serialization", target: "14: resolving symbol dependencies", fill: "#ed1c24"},
+{source: "14: computer science applications", target: "16: usual algorithms", fill: "#a7fc00"},
+{source: "16: usual algorithms", target: "16: topological sorting", fill: "#a7fc00"},
+{source: "16: topological sorting", target: "16: nodes plus", fill: "#a7fc00"},
+{source: "16: nodes plus", target: "16: edges asymptotically displaystyle", fill: "#a7fc00"},
+{source: "16: usual algorithms", target: "18: quote start nodes quote", fill: "#b5a642"},
+{source: "18: quote start nodes quote", target: "18: no incoming edges", fill: "#b5a642"},
+{source: "18: no incoming edges", target: "18: insert them into", fill: "#b5a642"},
+{source: "18: insert them into", target: "18: at least one such node must", fill: "#b5a642"},
+{source: "18: at least one such node must", target: "18: nonempty finite acyclic graph", fill: "#b5a642"},
+{source: "18: quote start nodes quote", target: "19: node n from", fill: "#deaa88"},
+{source: "19: node n from", target: "19: incoming edges then", fill: "#deaa88"},
+{source: "19: incoming edges then", target: "19: edges then", fill: "#deaa88"},
+{source: "19: edges then", target: "19: insert m into", fill: "#deaa88"},
+{source: "19: insert m into", target: "19: no other Sif ", fill: "#deaa88"},
+{source: "19: no other Sif ", target: "19: topologically", fill: "#deaa88"},
+{source: "19: topologically", target: "19: in the L ", fill: "#deaa88"},
+{source: "19: in the L ", target: "19: necessarily unique", fill: "#deaa88"},
+{source: "19: node n from", target: "20: Otherwise ", fill: "#007ba7"},
+{source: "20: Otherwise ", target: "21: Reflecting ", fill: "#f0f"},
+{source: "21: Reflecting ", target: "21: nonuniqueness", fill: "#f0f"},
+{source: "21: nonuniqueness", target: "21: of the S ", fill: "#f0f"},
+{source: "21: Reflecting ", target: "23: breaks ties lexicographically forms", fill: "#ffcba4"},
+{source: "23: breaks ties lexicographically forms", target: "23: CoffmanGraham ", fill: "#ffcba4"},
+{source: "23: CoffmanGraham ", target: "23: parallel scheduling", fill: "#ffcba4"},
+{source: "23: parallel scheduling", target: "23: layered graph drawing", fill: "#ffcba4"},
+{source: "23: breaks ties lexicographically forms", target: "25: algorithm loops through each node", fill: "#008b8b"},
+{source: "25: algorithm loops through each node", target: "25: arbitrary", fill: "#008b8b"},
+{source: "25: arbitrary", target: "25: already been visited since", fill: "#008b8b"},
+{source: "25: already been visited since", target: "25: no outgoing edges ie", fill: "#008b8b"},
+{source: "25: no outgoing edges ie", target: "25: leaf nodeL", fill: "#008b8b"},
+{source: "25: leaf nodeL", target: "25: will contain", fill: "#008b8b"},
+{source: "25: will contain", target: "25: nodes without", fill: "#008b8b"},
+{source: "25: nodes without", target: "25: unmarked node n", fill: "#008b8b"},
+{source: "25: unmarked node n", target: "25: at least one cycle", fill: "#008b8b"},
+{source: "25: at least one cycle", target: "25: each node m with", fill: "#008b8b"},
+{source: "25: each node m with", target: "25: edge from n", fill: "#008b8b"},
+{source: "25: edge from n", target: "25: output list", fill: "#008b8b"},
+{source: "25: output list", target: "25: depend on n", fill: "#008b8b"},
+{source: "25: depend on n", target: "25: descendants", fill: "#008b8b"},
+{source: "25: algorithm loops through each node", target: "26: Specifically ", fill: "#996515"},
+{source: "26: Specifically ", target: "26: algorithm adds node n", fill: "#996515"},
+{source: "26: algorithm adds node n", target: "26: depend on n", fill: "#996515"},
+{source: "26: depend on n", target: "26: output list", fill: "#996515"},
+{source: "26: output list", target: "26: either by", fill: "#996515"},
+{source: "26: either by", target: "26: recursive call", fill: "#996515"},
+{source: "26: recursive call", target: "26: started even", fill: "#996515"},
+{source: "26: Specifically ", target: "31: repeatedly square", fill: "#cc4e5c"},
+{source: "31: repeatedly square", target: "31: adjacency matrix", fill: "#cc4e5c"},
+{source: "31: adjacency matrix", target: "31: given graph logarithmically", fill: "#cc4e5c"},
+{source: "31: given graph logarithmically", target: "31: minimization", fill: "#cc4e5c"},
+{source: "31: repeatedly square", target: "32: matrix describes", fill: "#d7837f"},
+{source: "32: matrix describes", target: "32: longest path distances", fill: "#d7837f"},
+{source: "32: matrix describes", target: "34: Kahn for a DAG ", fill: "#faf0e6"},
+{source: "34: Kahn for a DAG ", target: "34: displaystyle", fill: "#faf0e6"},
+{source: "34: Kahn for a DAG ", target: "39: initializes", fill: "#e9967a"},
+{source: "39: initializes", target: "39: local vertices displaystyle", fill: "#e9967a"},
+{source: "39: local vertices displaystyle", target: "39: upper index represents", fill: "#e9967a"},
+{source: "39: upper index represents", target: "39: current iteration", fill: "#e9967a"},
+{source: "39: initializes", target: "41: global index", fill: "#a40000"},
+{source: "41: global index", target: "41: each vertex", fill: "#a40000"},
+{source: "41: each vertex", target: "41: prefix sum", fill: "#a40000"},
+{source: "41: prefix sum", target: "41: calculated over", fill: "#a40000"},
+{source: "41: calculated over", target: "41: displaystyle", fill: "#a40000"},
+{source: "41: global index", target: "START_HERE", fill: "#a40000"}]; 
     // create empty nodes array
     var nodes = {};
 	var colorFill = [];
@@ -221,144 +245,140 @@ var links =     [
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Quantitative_easing">Quantitative easing</a></td>
-      <td>Quantitative easing (QE) is a monetary policy action where a central bank purchases predetermined amounts of government bonds or other financial assets in order to stimulate economic activity. Quantitative easing is a novel form of monetary policy that came into wide application after the financial crisis of 2007-2008.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Pre-topological_order">Pre-topological order</a></td>
+      <td>In the field of computer science, a pre-topological order or pre-topological ordering of a directed graph is a linear ordering of its vertices such that if there is a directed path from vertex u to vertex v and v comes before u in the ordering, then there is also a directed path from vertex v to vertex u.\nIf the graph is a directed acyclic graph (DAG), topological orderings are pre-topological orderings and vice versa.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/December_15">December 15</a></td>
-      <td>December 1 is the 335th day of the year (336th in leap years) in the Gregorian calendar;  30 days remain until the end of the year.\n\n\n== Events ==\n\n\n=== Pre-1600 ===\n800 – A council is convened in the Vatican, at which Charlemagne is to judge the accusations against Pope Leo III.\n1420 – Henry V of England enters Paris alongside his father-in-law King Charles VI of France.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Maximum_flow_problem">Maximum flow problem</a></td>
+      <td>In optimization theory, maximum flow problems involve finding a feasible flow through a flow network that obtains the maximum possible flow rate.\nThe maximum flow problem can be seen as a special case of more complex network flow problems, such as the circulation problem.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/United_States_Merchant_Marine">United States Merchant Marine</a></td>
-      <td>The United States Merchant Marine is composed of United States civilian mariners and U.S. civilian and federally owned merchant vessels. Both the civilian mariners and the merchant vessels are managed by a combination of the government and private sectors, and engage in commerce or transportation of goods and services in and out of the navigable waters of the United States.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Vertex_operator_algebra">Vertex operator algebra</a></td>
+      <td>In mathematics, a vertex operator algebra (VOA) is an algebraic structure that plays an important role in two-dimensional conformal field theory and string theory.  In addition to physical applications, vertex operator algebras have proven useful in purely mathematical contexts such as monstrous moonshine and the geometric Langlands correspondence.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/List_of_age_restrictions">List of age restrictions</a></td>
-      <td>This article gives an outline of age restrictions.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Time_management">Time management</a></td>
+      <td>Time management is the process of planning and exercising conscious control of time spent on specific activities—especially to increase effectiveness, efficiency and productivity.\nTime management involves demands relating to work, social life, family, hobbies, personal interests and commitments.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Travel_during_the_COVID-19_pandemic">Travel during the COVID-19 pandemic</a></td>
-      <td>During the COVID-19 pandemic, many countries and regions imposed quarantines, entry bans, or other travel restrictions for citizens of or recent travelers to the most affected areas. Some countries and regions imposed global restrictions that apply to all foreign countries and territories, or prevent their own citizens from travelling overseas.Travel restrictions reduced the spread of the virus, but because they were first implemented after community spread was established in multiple countries in different regions of the world, they produced only a modest reduction in the total number of people infected.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Phoenix_Wright">Phoenix Wright</a></td>
+      <td>Phoenix "Nick" Wright, known as Ryūichi Naruhodō (Japanese: 成歩堂 龍一, Hepburn: Naruhodō Ryūichi) in the original Japanese language versions, is the fictional titular defense attorney and the protagonist in Ace Attorney, a visual novel adventure video game series created by Shu Takumi, who was an employee of Japanese gaming company Capcom. Introduced in Phoenix Wright: Ace Attorney (2001), Phoenix is a young rookie attorney who the player controls in several cases to protect the clients suspected of murder.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Vlora_incident">Vlora incident</a></td>
-      <td>The Vlora Incident or the Battle at the base of Vlora (Albanian: Sulmi ndaj pranisë detare sovjetike) was an attack by Albania against the Soviet Union in the Mediterranean Sea. It ended with the withdrawal of the Soviets from the Albanian naval base.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Adjacency_matrix">Adjacency matrix</a></td>
+      <td>In graph theory and computer science, an adjacency matrix is a square matrix used to represent a finite graph. The elements of the matrix indicate whether pairs of vertices are adjacent or not in the graph.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/List_of_spaceflight_launches_in_January–June_2023">List of spaceflight launches in January–June 2023</a></td>
-      <td>This article lists orbital and suborbital launches during the first half of the year 2023.\nFor all other spaceflight activities, see 2023 in spaceflight.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Tryfan">Tryfan</a></td>
+      <td>Tryfan (Welsh pronunciation: [ˈtrəvan]) is a mountain in the Ogwen Valley, Snowdonia, Wales. It forms part of the Glyderau group, and is one of the most recognisable peaks in Britain, having a classic pointed shape with rugged crags.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Nuclear_power_in_the_United_States">Nuclear power in the United States</a></td>
-      <td>Nuclear power in the United States is provided by 92 commercial reactors with a net capacity of 94.7 gigawatts (GW), with 61 pressurized water reactors and 31 boiling water reactors. In 2019, they produced a total of 809.41 terawatt-hours of electricity, which accounted for 20% of the nation's total electric energy generation.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Computer_science">Computer science</a></td>
+      <td>Computer science is the study of computation, information, and automation. Computer science spans theoretical disciplines (such as algorithms, theory of computation, and information theory) to applied disciplines (including the design and implementation of hardware and software).</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Cost_of_electricity_by_source">Cost of electricity by source</a></td>
-      <td>Different methods of electricity generation can incur a variety of different costs, which can be divided into three general categories: 1) wholesale costs, or all costs paid by utilities associated with acquiring and distributing electricity to consumers, 2) retail costs paid by consumers, and 3) external costs, or externalities, imposed on society.\nWholesale costs include initial capital, operations &amp; maintenance (O&amp;M), transmission, and costs of decommissioning.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">Theoretical computer science</a></td>
+      <td>Theoretical computer science is a subfield of computer science and mathematics that focuses on the abstract and mathematical foundations of computation.\nIt is difficult to circumscribe the theoretical areas precisely.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Airbreathing_jet_engine">Airbreathing jet engine</a></td>
-      <td>An airbreathing jet engine (or ducted jet engine) is a jet engine that ejects a propelling (reaction) jet of hot exhaust gases after first taking in atmospheric air, followed by compression, heating and expansion back to atmospheric pressure through a nozzle. Alternatively the reaction jet may include a cold jet of ducted bypass air which has been compressed by a fan before returning to atmospheric pressure through an additional nozzle.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Computer_scientist">Computer scientist</a></td>
+      <td>A computer scientist is a scientist who specializes in the academic study of computer science. \nComputer scientists typically work on the theoretical side of computation.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Fossil_fuel_subsidies">Fossil fuel subsidies</a></td>
-      <td>Fossil fuel subsidies are energy subsidies on fossil fuels. They may be tax breaks on consumption, such as a lower sales tax on natural gas for residential heating; or subsidies on production, such as  tax breaks on exploration for oil.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Cluster_analysis">Cluster analysis</a></td>
+      <td>Cluster analysis or clustering is the task of grouping a set of objects in such a way that objects in the same group (called a cluster) are more similar (in some specific sense defined by the analyst) to each other than to those in other groups (clusters). It is a main task of exploratory data analysis, and a common technique for statistical data analysis, used in many fields, including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Global_Thunder">Global Thunder</a></td>
-      <td>Global Thunder is an annual U.S. nuclear strategic command and control exercise that is designed to train U.S. Strategic Command forces and assess joint operational readiness.  This large-scale training exercise has a primary focus on nuclear readiness and creating conditions for strategic deterrence against a variety of threats.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Earth_radius">Earth radius</a></td>
+      <td>Earth radius (denoted as R🜨 or RE) is the distance from the center of Earth to a point on or near its surface. Approximating the figure of Earth by an Earth spheroid (an oblate ellipsoid), the radius ranges from a maximum (equatorial radius, denoted a) of nearly 6,378 km (3,963 mi) to a minimum (polar radius, denoted b) of nearly 6,357 km (3,950 mi).</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Phillip_Boa_and_the_Voodooclub">Phillip Boa and the Voodooclub</a></td>
-      <td>Phillip Boa and the Voodooclub is a German avant-garde pop and independent music band, led by the songwriter, singer and guitarist Phillip Boa.\n\n\n== History ==\nPhillip Boa and the Voodooclub was formed by Phillip Boa in 1985.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Grunt_(software)">Grunt (software)</a></td>
+      <td>Grunt is a JavaScript task runner, a tool used to automatically perform  frequent tasks such as minification, compilation, unit testing, and linting. It uses a command-line interface to run custom tasks defined in a file (known as a Gruntfile).</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/SpaceX">SpaceX</a></td>
-      <td>Space is a three-dimensional continuum containing positions and directions. In classical physics, physical space is often conceived in three linear dimensions.</td>
+      <td><a href="https://en.wikipedia.org/wiki/One,_No_One_and_One_Hundred_Thousand">One, No One and One Hundred Thousand</a></td>
+      <td>One, No One and One Hundred Thousand (Italian: Uno, nessuno e centomila [ˈuːno nesˈsuːno e tˌtʃɛntoˈmiːla]) is a 1926 novel by the Italian writer Luigi Pirandello. It is Pirandello's last novel; his son later said that it took "more than 15 years" to write.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Vegetable_oil">Vegetable oil</a></td>
-      <td>Vegetable oils, or vegetable fats, are oils extracted from seeds or from other parts of fruits. Like animal fats, vegetable fats are mixtures of triglycerides.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Content-addressable_network">Content-addressable network</a></td>
+      <td>The content-addressable network (CAN) is a distributed, decentralized P2P infrastructure that provides hash table functionality on an Internet-like scale.  CAN was one of the original four distributed hash table proposals, introduced concurrently with Chord, Pastry, and Tapestry.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Evan_Sharp">Evan Sharp</a></td>
-      <td>Evan Sharp (born 1982) is an American billionaire Internet entrepreneur. He is the co-founder and chief design and creative officer of Pinterest, a visual discovery engine.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Red–black_tree">Red–black tree</a></td>
+      <td>In computer science, a red–black tree is a self-balancing binary search tree data structure noted for fast storage and retrieval of ordered information. The nodes in a red-black tree hold an extra "color" bit, often drawn as red and black, which help ensure that the tree is always approximately balanced.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Sharps_rifle">Sharps rifle</a></td>
-      <td>Sharps rifles are a series of large-bore, single-shot, falling-block, breech-loading rifles, beginning with a design by Christian Sharps in 1848 and ceasing production in 1881. They were renowned for long-range accuracy.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Ł">Ł</a></td>
+      <td>Ł or ł,  described in English as L with stroke, is a letter of the Polish, Kashubian, Kurdish, Sorbian, Belarusian Latin, Ukrainian Latin, Wymysorys, Navajo, Dëne Sųłıné, Inupiaq, Zuni, Hupa, Sm'álgyax, Nisga'a, and Dogrib alphabets, several proposed alphabets for the Venetian language, and the ISO 11940 romanization of the Thai script. In some Slavic languages, it represents the continuation of the Proto-Slavic non-palatal ⟨L⟩ (dark L), except in Polish, Kashubian, and Sorbian, where it evolved further into /w/.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Scott_Pruitt">Scott Pruitt</a></td>
-      <td>Edward Scott Pruitt (born May 9, 1968) is an American lawyer, lobbyist and Republican politician from the state of Oklahoma. He served as the fourteenth Administrator of the Environmental Protection Agency (EPA) from February 17, 2017, to July 9, 2018, during the Donald Trump presidency, resigning while under at least 14 federal investigations.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Not_otherwise_specified">Not otherwise specified</a></td>
+      <td>Pervasive developmental disorder not otherwise specified (PDD-NOS) is a historic psychiatric diagnosis first defined in 1980 that has since been incorporated into autism spectrum disorder in the DSM-5 (2013).\nAccording to the earlier DSM-IV, PDD-NOS referred to "mild or severe pervasive deficits in the development of reciprocal social interaction and/or verbal and nonverbal communication skills, or when stereotyped behavior, interests, and/or activities are present, but the criteria are not met for a specific PDD" or for several other disorders.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Two-sided_market">Two-sided market</a></td>
-      <td>A two-sided market, also called a two-sided network, is an intermediary economic platform having two distinct user groups that provide each other with network benefits. The organization that creates value primarily by enabling direct interactions between two (or more) distinct types of affiliated customers is called a multi-sided platform.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Initial_value_problem">Initial value problem</a></td>
+      <td>In multivariable calculus, an initial value problem (IVP) is an ordinary differential equation together with an initial condition which specifies the value of the unknown function at a given point in the domain. Modeling a system in physics or other sciences frequently amounts to solving an initial value problem.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Avionics">Avionics</a></td>
-      <td>Avionics (a blend of aviation and electronics) are the electronic systems used on aircraft. Avionic systems include communications, navigation, the display and management of multiple systems, and the hundreds of systems that are fitted to aircraft to perform individual functions.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Classical_Chinese">Classical Chinese</a></td>
+      <td>Classical Chinese is the language in which the classics of Chinese literature were written, from c. the 5th century BCE. For millennia thereafter, the written Chinese used in these works was imitated and iterated upon by scholars in a form now called Literary Chinese, which was used for almost all formal writing in China until the early 20th century. Each written character corresponds to a single spoken syllable, and almost always to a single independent word.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Cancel">Cancel</a></td>
-      <td>Dance is an art form consisting of sequences of body movements with aesthetic and often symbolic value, either improvised or purposefully selected. Dance can be categorized and described by its choreography, by its repertoire of movements, done simultaneously with music or with instruments; or by its historical period or place of origin.An important distinction is to be drawn between the contexts of theatrical and participatory dance, although these two categories are not always completely separate; both may have special functions, whether social, ceremonial, competitive, erotic, martial, sacred or liturgical.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Graph_drawing">Graph drawing</a></td>
+      <td>Graph drawing is an area of mathematics and computer science combining methods from geometric graph theory and information visualization to derive two-dimensional depictions of graphs arising from applications such as social network analysis, cartography, linguistics, and bioinformatics.\nA drawing of a graph or network diagram is a pictorial representation of the vertices and edges of a graph.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Antoine_Halff">Antoine Halff</a></td>
-      <td>Antoine Halff is co-founder and chief analyst at environmental intelligence company Kayrros and Adjunct Senior Research Scholar at the Center on Global Energy Policy, Columbia University.\n\n\n== Education and career ==\nHalff attended at the École des Hautes Etudes en Sciences Sociales (EHESS) in the early 1980s.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Personal_knowledge_base">Personal knowledge base</a></td>
+      <td>A personal knowledge base (PKB) is an electronic tool used by an individual to express, capture, and later retrieve personal knowledge. It differs from a traditional database in that it contains subjective material particular to the owner, that others may not agree with nor care about.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Tong_Zeng">Tong Zeng</a></td>
-      <td>Tong Zeng (Chinese name: 童增, born June 3, 1956) is a Chinese scholar, peace activist, and businessman. He is chairman of the China Federation of Demanding Compensation from Japan, and is chairman of Zhongxiang Investment Co., Ltd.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Rete_algorithm">Rete algorithm</a></td>
+      <td>The Rete algorithm ( REE-tee,  RAY-tee, rarely  REET,  reh-TAY) is a pattern matching algorithm for implementing rule-based systems. The algorithm was developed to efficiently apply many rules or patterns to many objects, or facts, in a knowledge base.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Financial_District,_San_Francisco">Financial District, San Francisco</a></td>
-      <td>The Financial District is a neighborhood in San Francisco, California, United States, that serves as its main central business district and had 372,829 jobs according to U.S. census tracts as of 2012-2016.   It is home to the city's largest concentration of corporate headquarters, law firms, insurance companies, real estate firms, savings and loan banks, and other financial institutions.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Ford–Fulkerson_algorithm">Ford–Fulkerson algorithm</a></td>
+      <td>The Ford–Fulkerson method or Ford–Fulkerson algorithm (FFA) is a greedy algorithm that computes the maximum flow in a flow network. It is sometimes called a "method" instead of an "algorithm" as the approach to finding augmenting paths in a residual graph is not fully specified or it is specified in several implementations with different running times.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Enel_North_America">Enel North America</a></td>
-      <td>Enel North America is an American company headquartered in Andover, MA, United States. One of the largest renewable energy operators in North America, it was formed as a subsidiary of the global utility Enel S.p.A. in 2000.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Semiconductor_device_fabrication">Semiconductor device fabrication</a></td>
+      <td>Semiconductor device fabrication is the process used to manufacture semiconductor devices, typically integrated circuits (ICs) such as microprocessors, microcontrollers, and memories (such as RAM and flash memory). It is a multiple-step photolithographic and physico-chemical process (with steps such as thermal oxidation, thin-film deposition, ion-implantation, etching) during which electronic circuits are gradually created on a wafer, typically made of pure single-crystal semiconducting material.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Ethiopian_Airlines">Ethiopian Airlines</a></td>
-      <td>Ethiopian Airlines (commonly referred to as Ethiopian; Amharic: የኢትዮጵያ አየር መንገድ, romanized: Ye-Ītyōṗṗyā āyer menged), formerly Ethiopian Air Lines (EAL), is the flag carrier of Ethiopia, and is wholly owned by the country's government. EAL was founded on 21 December 1945 and commenced operations on 8 April 1946, expanding to international flights in 1951.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Grammy_Award_for_Best_Song_Written_for_Visual_Media">Grammy Award for Best Song Written for Visual Media</a></td>
+      <td>The Grammy Award for Best Song Written for Visual Media (including its previous names) is the Grammy Awards awarded to songs written for films, television, video games or other visual media.\n\n\n== Recipients ==\n\n^[I]  Each year is linked to the article about the Grammy Awards held that year.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Dan_Duryea">Dan Duryea</a></td>
-      <td>Dan Duryea ( DUURR-ee-ay, January 23, 1907 – June 7, 1968) was an American actor in film, stage, and television. Known for portraying a vast range of character roles as a villain, he nonetheless had a long career in a wide variety of leading and secondary roles.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Diameter_(graph_theory)">Diameter (graph theory)</a></td>
+      <td>In graph theory, the diameter of a connected undirected graph is the farthest distance between any two of its vertices. That is, it is the diameter of a set for the set of vertices of the graph, and for the shortest-path distance in the graph.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Coming_from_Reality">Coming from Reality</a></td>
-      <td>Coming from Reality is the second and most recent studio album from American singer and songwriter Rodriguez, originally released by Sussex Records in 1971. It was later released in South Africa in 1976 with the alternate title After the Fact.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)">Matrix (mathematics)</a></td>
+      <td>In mathematics, a matrix (pl.: matrices) is a rectangular array or table of numbers, symbols, or expressions, with elements or entries arranged in rows and columns, which is used to represent a mathematical object or property of such an object.\nFor example, \n\n  \n    \n      \n        \n          \n            [\n            \n              \n                \n                  1\n                \n                \n                  9\n                \n                \n                  −\n                  13\n                \n              \n              \n                \n                  20\n                \n                \n                  5\n                \n                \n                  −\n                  6\n                \n              \n            \n            ]\n          \n        \n      \n    \n    {\displaystyle {\begin{bmatrix}1&amp;9&amp;-13\\20&amp;5&amp;-6\end{bmatrix}}}\n  \n\nis a matrix with two rows and three columns.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Concept_art">Concept art</a></td>
-      <td>Concept art is a form of visual art used to convey an idea for use in films, video games, animation, comic books, or other media before it is put into the final product. Concept art usually refers to world-building artwork used to inspire the development of media products, and is not the same as visual development art, though they are often confused.</td>
+      <td><a href="https://en.wikipedia.org/wiki/South_West_Coast_Path">South West Coast Path</a></td>
+      <td>The South West Coast Path is England's longest waymarked long-distance footpath and a National Trail. It stretches for 630 miles (1,014 km), running from Minehead in Somerset, along the coasts of Devon and Cornwall, to Poole Harbour in Dorset.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/SEER-SEM">SEER-SEM</a></td>
-      <td>SEER for Software (SEER-SEM) is a project management application used to estimate resources required for software development.\n\n\n== History ==\n1966 System Development Corporation Model based on regressions.1980 Don Reifer and Dan Galorath paper which prompted the building of the JPL Softcost model.</td>
+      <td><a href="https://en.wikipedia.org/wiki/List_of_Internet_pioneers">List of Internet pioneers</a></td>
+      <td>Instead of having a single inventor, the Internet was developed by many people over many years. The following people are Internet pioneers who have been recognized for their contribution to its early and ongoing development.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Algae_fuel">Algae fuel</a></td>
-      <td>Algae fuel, algal biofuel, or algal oil is an alternative to liquid fossil fuels that uses algae as its source of energy-rich oils. Also, algae fuels are an alternative to commonly known biofuel sources, such as corn and sugarcane.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Zero-based_numbering">Zero-based numbering</a></td>
+      <td>Zero-based numbering is a way of numbering in which the initial element of a sequence is assigned the index 0, rather than the index 1 as is typical in everyday non-mathematical or non-programming circumstances. Under zero-based numbering, the initial element is sometimes termed the zeroth element, rather than the first element; zeroth is a coined ordinal number corresponding to the number zero.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Big_Oil">Big Oil</a></td>
-      <td>Big Oil is a name used to describe the world's six or seven largest publicly traded and investor-owned oil and gas companies, also known as supermajors. The term, particularly in the United States, emphasizes their economic power and influence on politics.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Iterator">Iterator</a></td>
+      <td>In computer programming, an iterator is an object that progressively provides access to each item of a collection, in order. \nA collection may provide multiple iterators via its interface that provide items in different orders, such as forwards and backwards.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Swordsman_(character)">Swordsman (character)</a></td>
-      <td>Swordsman (Jacques Duquesne) is a character appearing in American comic books published by Marvel Comics. Created by Stan Lee and Don Heck, the character first appeared in The Avengers #19 (August 1965).</td>
+      <td><a href="https://en.wikipedia.org/wiki/Rayleigh_quotient_iteration">Rayleigh quotient iteration</a></td>
+      <td>Rayleigh quotient iteration is an eigenvalue algorithm which extends the idea of the inverse iteration by using the Rayleigh quotient to obtain increasingly accurate eigenvalue estimates.\nRayleigh quotient iteration is an iterative method, that is, it delivers a sequence of approximate solutions that converges to a true solution in the limit.</td>
     </tr>
     <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Social_structure_of_China">Social structure of China</a></td>
-      <td>The social structure of China has an extensive history which begins from the feudal society of Imperial China to the contemporary era.  There was a Chinese nobility, beginning with the Zhou dynasty.</td>
-    </tr>
-    <tr>
-      <td><a href="https://en.wikipedia.org/wiki/Gastric_acid">Gastric acid</a></td>
-      <td>Gastric acid, gastric juice, or stomach acid is a digestive fluid formed within the stomach lining. With a pH between 1 and 3, gastric acid plays a key role in digestion of proteins by activating digestive enzymes, which together break down the long chains of amino acids of proteins.</td>
+      <td><a href="https://en.wikipedia.org/wiki/Load_balancing_(computing)">Load balancing (computing)</a></td>
+      <td>In computing, load balancing is the process of distributing a set of tasks over a set of resources (computing units), with the aim of making their overall processing more efficient. Load balancing can optimize response time and avoid unevenly overloading some compute nodes while other compute nodes are left idle.</td>
     </tr>
   </tbody>
 </table><table border="1" class="dataframe">
@@ -369,121 +389,121 @@ var links =     [
   </thead>
   <tbody>
     <tr>
-      <td><font color="blue">Airfares </font>have <font color="blue">eased from last years highs</font></td>
+      <td><font color="blue">Topological </font>sortingContributors to Wikimedia projects1621 minutesIn computer science, a topological sort or <font color="blue">topological ordering</font> of a <font color="blue">directed graph</font> is a <font color="blue">linear ordering</font> of its vertices such that for every directed edge (u,v) from vertex u to vertex v, u comes before v in the ordering</td>
     </tr>
     <tr>
-      <td>Now a resurgence in jet-fuel prices is <font color="blue">threatening</font> to push them higher again</td>
+      <td>For instance, the vertices of the <font color="blue">graph may represent tasks</font> to be performed, and the <font color="blue">edges may represent constraints</font> that <font color="blue">one task must</font> be performed before another; in this <font color="blue">application</font>, a <font color="blue">topological ordering</font> is just a <font color="blue">valid sequence</font> for the tasks</td>
     </tr>
     <tr>
-      <td>Prices for the kerosene-based product have <font color="blue">been climbing since</font> December, <font color="blue">propelled by diminished supplies</font> after <font color="blue">winter storms shut down <font color="blue">refineries</font></font></td>
+      <td>Precisely, a topological sort is a graph traversal in which each node v is visited only after all its <font color="blue">dependencies</font> are visited</td>
     </tr>
     <tr>
-      <td>Swelling demand has also pushed up prices, as millions of Chinese travelers took to the skies to celebrate the <font color="blue">Lunar New Year </font>and newfound freedom from Covid <font color="blue">restrictions</font></td>
+      <td>A <font color="blue">topological ordering</font> is possible if and only if the graph has <font color="blue">no directed cycles</font>, that is, if it is a <font color="blue">directed acyclic graph</font> (DAG)</td>
     </tr>
     <tr>
-      <td>The global jet-fuel price index maintained by S&amp;P Global is up 20prca since Dec</td>
+      <td>Any DAG has at least one <font color="blue">topological ordering</font>, and <font color="blue">algorithms</font> are known for <font color="blue">constructing</font> a <font color="blue">topological ordering</font> of any DAG in linear time</td>
     </tr>
     <tr>
-      <td>7, while prices on the <font color="blue">US East Coast </font>are up about 77prca</td>
+      <td><font color="blue">Topological </font>sorting has many <font color="blue">application</font>s, especially in <font color="blue">ranking problems such as feedback arc set</font></td>
     </tr>
     <tr>
-      <td>While <font color="blue">global demand</font> for gasoline and diesel has <font color="blue">already recovered from</font> its pandemic downturn, jet-fuel <font color="blue">consumption</font> is just now taking off</td>
+      <td><font color="blue">Topological </font>sorting is <font color="blue">also possible</font> when the DAG has <font color="blue">disconnected components</font></td>
     </tr>
     <tr>
-      <td><font color="blue">The International Energy Agency </font>forecasts that jet fuel will drive 44prca of the 1dtta9 million barrels a day of <font color="blue">global oil</font>-demand growth that it expects this year, after <font color="blue">accounting</font> for less than 6prca of demand last year, according to <font color="blue">research firm</font> <font color="blue">Rystad Energy</font></td>
+      <td>This graph has many <font color="blue">valid topological sorts</font>, including:    5, 7, 3, 11, 8, 2, 9, 10 (visual left-to-right, top-to-bottom)    3, 5, 7, 8, 11, 2, 9, 10 (smallest-numbered available vertex first)    3, 5, 7, 8, 11, 2, 10, 9 (lexicographic by incoming neighbors)    5, 7, 3, 8, 11, 2, 10, 9 (fewest edges first)    7, 5, 11, 3, 10, 8, 9, 2 (largest-numbered available vertex first)    5, 7, 11, 2, 3, 8, 9, 10 (attempting top-to-bottom, left-to-right)    3, 7, 8, 5, 11, 10, 2, 9 (<font color="blue">arbitrary</font>)The canonical <font color="blue">application</font> of <font color="blue">topological sorting</font> is in scheduling a sequence of jobs or <font color="blue">tasks based on</font> their <font color="blue">dependencies</font></td>
     </tr>
     <tr>
-      <td>Russias invasion of <font color="blue">Ukraine in February </font>2022 sent refined oil-product prices soaring, after Western <font color="blue">sanctions curtailed</font> Russian exports</td>
+      <td>The jobs are <font color="blue">represented by vertices</font>, and there is an <font color="blue">edge from x</font> to y if <font color="blue">job x must</font> be completed before job y can be started (for example, when washing clothes, the washing machine must finish before we put the clothes in the dryer)</td>
     </tr>
     <tr>
-      <td>Last June, S&amp;P Globals jet-fuel index shot up to dlra4dtta33 a gallon, near its <font color="blue">highest level ever</font></td>
+      <td>A closely-related <font color="blue">application</font> of <font color="blue">topological sorting</font> <font color="blue">algorithms</font> was <font color="blue">first studied</font> in the early 1960s in the context of the PERT technique for scheduling in project <font color="blue">management</font></td>
     </tr>
     <tr>
-      <td>Meanwhile, the US ended 2022 with its <font color="blue">lowest inventories</font> of jet fuel since 1996, according to <font color="blue">Energy Information Administration </font>data</td>
+      <td>[1] In this <font color="blue">application</font>, the vertices of a <font color="blue">graph represent</font> the <font color="blue">milestones</font> of a project, and the <font color="blue">edges represent tasks</font> that must be performed <font color="blue">between one milestone</font> and another</td>
     </tr>
     <tr>
-      <td>Fresh <font color="blue">sanctions on</font> Russian <font color="blue">refined products set</font> to start Feb</td>
+      <td><font color="blue">Topological </font><font color="blue">sorting forms</font> the basis of linear-time <font color="blue">algorithms</font> for finding the <font color="blue">critical path</font> of the project, a sequence of <font color="blue">milestones</font> and tasks that controls the length of the overall project schedule</td>
     </tr>
     <tr>
-      <td>5 threaten to <font color="blue">further affect global supplies</font></td>
+      <td>In computer science, <font color="blue">application</font>s of this type arise in instruction scheduling, ordering of <font color="blue">formula cell evaluation</font> when <font color="blue">recomputing formula values</font> in spreadsheets, logic synthesis, determining the order of <font color="blue">compilation tasks</font> to perform in makefiles, data serialization, and resolving symbol <font color="blue">dependencies</font> in linkers</td>
     </tr>
     <tr>
-      <td>Even with the recent run-up, jet-fuel prices have yet to <font color="blue">hit last years highs</font></td>
+      <td>It is also used to decide in which order to <font color="blue">load tables with foreign keys</font> in <font color="blue">databases</font></td>
     </tr>
     <tr>
-      <td>That is because <font color="blue">jet fuels price</font> is the sum of the cost of the crude oil needed to make it and a <font color="blue">premium charged by</font> its makers and <font color="blue">distributors</font>, and crude-oil prices are down about 37prca since last June</td>
+      <td>The usual <font color="blue">algorithms</font> for <font color="blue">topological sorting</font> have running time linear in the number of <font color="blue">nodes plus</font> the number of edges, asymptotically, {\<font color="blue">displaystyle</font> O(\left|{V}\right|+\left|{E}\right|)</td>
     </tr>
     <tr>
-      <td>The S&amp;P Global index is now at roughly dlra3dtta10 a gallon</td>
+      <td>}One of these <font color="blue">algorithms</font>, first described by Kahn (1962), works <font color="blue">by choosing vertices</font> in the same order as the <font color="blue">eventual topological</font> sort</td>
     </tr>
     <tr>
-      <td>It is <font color="blue">jet fuels premium</font> to crude and other products that has <font color="blue">surged recently</font></td>
+      <td>[2] First, find a list of  &amp;quote start nodes &amp;quote  that have <font color="blue">no incoming edges</font> and <font color="blue">insert them into</font> a set S; <font color="blue">at least one such node must</font> exist in a non-empty (finite) acyclic graph</td>
     </tr>
     <tr>
-      <td><font color="blue">Although Gulf Coast </font><font color="blue">jet fuel typically trades at</font> a slight discount to diesel, in January it appreciated to a premium of 38 cents a gallon, the biggest spread since 2008</td>
+      <td>Then:L  Empty list that <font color="blue">will contain</font> the sorted elementsS  Set of all nodes with no incoming edgewhile S is not empty do    remove a <font color="blue">node n from</font> S    add n to L    for <font color="blue">each node m with</font> an edge e from n to m do        remove edge e from the graph        if m has no other <font color="blue">incoming <font color="blue">edges then</font></font>            <font color="blue">insert m into</font> Sif graph has <font color="blue">edges then</font>    return error   (graph has <font color="blue">at least one cycle</font>)else     return L   (a <font color="blue">topologically</font> sorted order)If the graph is a DAG, a solution will be contained in the list L (although the solution is not <font color="blue">necessarily unique</font>)</td>
     </tr>
     <tr>
-      <td><font color="blue">Airfares </font>are <font color="blue">up sharply from</font> the pandemic-depressed prices that <font color="blue">defined parts</font> of 2020 and 2021</td>
+      <td>Otherwise, the graph must have <font color="blue">at least one cycle</font> and therefore a topological sort is impossible</td>
     </tr>
     <tr>
-      <td>Higher <font color="blue">fuel prices boosted airfares last year</font>, and so did worker shortages, higher labor costs and <font color="blue">strong demand from consumers eager</font> to <font color="blue">splurge on</font> big vacations</td>
+      <td><font color="blue">Reflecting </font>the non-uniqueness of the resulting sort, the structure S can be simply a set or a queue or a stack</td>
     </tr>
     <tr>
-      <td>The recent run-up in jet-fuel prices has yet to be fully priced into airfares, analysts said</td>
+      <td><font color="blue">Depending </font>on the order that nodes n are <font color="blue">removed from set</font> S, a <font color="blue">different</font> solution is created</td>
     </tr>
     <tr>
-      <td>An upswing in Asian flight activity, particularly after Chinas <font color="blue">cancellation</font> of Covid-19 travel <font color="blue">restrictions</font> on Jan</td>
+      <td>A variation of Kahnapstas algorithm that <font color="blue">breaks ties lexicographically forms</font> a key component of the <font color="blue">CoffmanGraham </font>algorithm for <font color="blue">parallel scheduling</font> and <font color="blue">layered graph drawing</font></td>
     </tr>
     <tr>
-      <td>Demand bested last years levels by 33prca in mid-January, according to <font color="blue">consulting firm</font> Kayrros, <font color="blue">which tracks flights</font> and employs aircraft-model data to estimate <font color="blue">consumption</font></td>
+      <td>An <font color="blue">alternative algorithm</font> for <font color="blue">topological sorting</font> is based on depth-first search</td>
     </tr>
     <tr>
-      <td>Asia <font color="blue">significantly lagged</font> other regions in recovery, said Kayrros co-founder <font color="blue">Antoine Halff</font></td>
+      <td>The <font color="blue">algorithm loops through each node</font> of the graph, in an <font color="blue">arbitrary</font> order, initiating a depth-first search that terminates when it hits any node that has <font color="blue">already been visited since</font> the beginning of the topological sort or the node has no outgoing edges (ie, a leaf node):L  Empty list that <font color="blue">will contain</font> the sorted nodeswhile exists <font color="blue">nodes without</font> a permanent mark do    select an <font color="blue">unmarked node n</font>    visit(n)function visit(node n)    if n has a permanent mark then        return    if n has a temporary mark then        stop   (graph has <font color="blue">at least one cycle</font>)    mark n with a temporary mark    for <font color="blue">each node m with</font> an <font color="blue">edge from n</font> to m do        visit(m)    mark n with a permanent mark    add n to head of LEach node n gets prepended to the <font color="blue">output list</font> L only after considering all other nodes that <font color="blue">depend on n</font> (all <font color="blue">descendants</font> of n in the graph)</td>
     </tr>
     <tr>
-      <td>He said Asia has reached only 78prca of its <font color="blue">prepandemic level</font> of jet-fuel <font color="blue">consumption</font>, compared with 96prca for <font color="blue">North America </font>and 87prca for the world</td>
+      <td>Specifically, when the <font color="blue">algorithm adds node n</font>, we are guaranteed that all nodes that <font color="blue">depend on n</font> are already in the <font color="blue">output list</font> L: they were added to L <font color="blue">either by</font> the <font color="blue">recursive call</font> to visit() that ended before the call to visit n, or by a call to visit() that <font color="blue">started even</font> before the call to visit n</td>
     </tr>
     <tr>
-      <td>Lacy Warner, a writer and film producer from Providence, RI, is flying to see her parents in Jacksonville, Fla, later this month so they can help care for her 1-year-old daughter while her husband is traveling for work</td>
+      <td>Since each edge and node is <font color="blue">visited once</font>, the <font color="blue">algorithm runs</font> in linear time</td>
     </tr>
     <tr>
-      <td>Her <font color="blue">sister helped out</font> and bought a ticket for her <font color="blue">using air miles</font> when Lacy <font color="blue">couldnt find one</font> for less than dlra600</td>
+      <td>This depth-first-search-based algorithm is the <font color="blue">one described by</font> Cormen et al</td>
     </tr>
     <tr>
-      <td>Warner said, adding that the prices were more than double what she <font color="blue">usually pays</font></td>
+      <td>(2001);[3] it seems to have <font color="blue">been first described</font> in print by Tarjan in 1976</td>
     </tr>
     <tr>
-      <td>It is really hard to understand where this is <font color="blue">coming from</font></td>
+      <td>[4]On a parallel random-access machine, a <font color="blue">topological ordering</font> can be <font color="blue">constructed</font> in O((log n)2) time using a polynomial number of processors, putting the <font color="blue">problem into</font> the <font color="blue">complexity</font> class NC2</td>
     </tr>
     <tr>
-      <td>But domestic airfares, on average, havent yet reacted to the <font color="blue">recent rise</font> in fuel prices, according to data from travel-booking app Hopper</td>
+      <td>[5] One method for doing this is to <font color="blue">repeatedly square</font> the <font color="blue">adjacency matrix</font> of the given graph, logarithmically many times, using min-plus matrix multiplication with maximization in place of <font color="blue">minimization</font></td>
     </tr>
     <tr>
-      <td>Some travelers are seeing <font color="blue">high prices</font>, said Hoppers <font color="blue">lead economist</font>, Hayley Berg, because airlines have adapted to <font color="blue">increased fuel costs</font> and <font color="blue">staffing constraints by</font> shifting <font color="blue">capacity</font> to larger planes flying between major hubs, leaving smaller airports such as <font color="blue">Jacksonville </font><font color="blue">with less competition</font> and <font color="blue">inflated fares</font></td>
+      <td>The resulting <font color="blue">matrix describes</font> the <font color="blue"><font color="blue">longest path</font> distances</font> in the graph</td>
     </tr>
     <tr>
-      <td>Last year, when demand for flights was high and supply was scant, airlines managed to pass all of their <font color="blue">additional fuel expenses on</font> to <font color="blue">customers within six months</font>, said <font color="blue">Raymond James </font><font color="blue">airline analyst</font> Savanthi Syth</td>
+      <td>[6]An algorithm for parallel <font color="blue">topological sorting</font> on distributed memory machines parallelizes the algorithm of <font color="blue">Kahn for a DAG </font>{\<font color="blue">displaystyle</font> G=(V,E)}</td>
     </tr>
     <tr>
-      <td>This year, airlines reaction to <font color="blue">rising fuel costs will probably</font> take a little bit longer, she said</td>
+      <td>[7] On a high level, the algorithm of Kahn <font color="blue">repeatedly removes</font> the vertices of indegree 0 and adds them to the <font color="blue">topological sorting</font> in the order in which they were removed</td>
     </tr>
     <tr>
-      <td>Still, <font color="blue">jet fuels run could</font> be stopped short by the <font color="blue">oil markets reaction</font> to it, said Vikas Dwivedi, <font color="blue">global oil</font> and <font color="blue">gas strategist at</font> <font color="blue">Macquarie Group</font></td>
+      <td>Since the outgoing edges of the <font color="blue">removed vertices</font> are also removed, there will be a new set of vertices of indegree 0, where the procedure is repeated <font color="blue">until no vertices</font> are left</td>
     </tr>
     <tr>
-      <td><font color="blue">Refiners in China </font>have room to <font color="blue">increase production</font></td>
+      <td>This algorithm performs {\<font color="blue">displaystyle</font> D+1} iterations, where D is the <font color="blue">longest path</font> in G Each iteration can be parallelized, which is the idea of the <font color="blue">following algorithm</font></td>
     </tr>
     <tr>
-      <td>New <font color="blue"><font color="blue">refineries</font> there</font> and in the <font color="blue">Middle East </font>are scheduled to start by the middle of this year</td>
+      <td>Each PE i <font color="blue">initializes</font> a set of local vertices {\<font color="blue">displaystyle</font> Q_{i}^{1}} with indegree 0, where the <font color="blue">upper index represents</font> the <font color="blue">current iteration</font></td>
     </tr>
     <tr>
-      <td>And <font color="blue">refineries</font> all over can <font color="blue">yield switch</font> to expand jet-fuel production by reducing production of diesel and gasoline</td>
+      <td>Since all vertices in the local sets {\<font color="blue">displaystyle</font> Q_{0}^{1},\dots ,Q_{p-1}^{1}} have indegree 0, ie, they are not <font color="blue">adjacent</font>, they can be given in an <font color="blue">arbitrary</font> order for a valid <font color="blue">topological sorting</font></td>
     </tr>
     <tr>
-      <td>You <font color="blue">could simultaneously grow jet demand</font> in a big way, Mr</td>
+      <td>To assign a <font color="blue">global index</font> to <font color="blue">each vertex</font>, a <font color="blue">prefix sum</font> is <font color="blue">calculated over</font> the sizes of {\<font color="blue">displaystyle</font> Q_{0}^{1},\dots ,Q_{p-1}^{1}}</td>
     </tr>
     <tr>
-      <td>Dwivedi said, and then meet that <font color="blue">demand through</font> all these <font color="blue">different items</font></td>
+      <td>So, each step, there are {\textstyle \sum _{i=0}^{p-1}|Q_{i}|} vertices added to the <font color="blue">topological sorting</font></td>
     </tr>
   </tbody>
 </table></body>

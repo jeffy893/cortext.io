@@ -3,183 +3,202 @@ package routines;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The concept class implements natural language processing functionality
+ * for extracting and processing phenological concepts from text.
+ * 
+ * This class works with a database (non-SQLite implementation) to:
+ * 1. Extract phenological concepts from sentences
+ * 2. Process relationships between subjects, syntactic elements, and concepts
+ * 3. Identify and categorize words into concepts or relations
+ * 4. Persist the results to a database with additional metadata (e.g., election markets)
+ * 
+ * It functions as part of a larger text analysis system that breaks down
+ * sentences into semantic components for structured storage and querying.
+ */
 public class concept {
 
-
+    /**
+     * Extracts phenological concepts from a sentence identified by sent_id.
+     * 
+     * This method processes a sentence by:
+     * 1. Finding all words in the sentence
+     * 2. Identifying subjects and syntactic relationships
+     * 3. Categorizing remaining words as either concepts or relations
+     * 4. Committing these categorized elements to the database with relevant metadata
+     * 
+     * The algorithm uses a state machine approach with two gates:
+     * - gate1: Tracks if the previous word is a relation
+     * - gate2: Tracks if the previous word is part of a concept
+     * 
+     * @param sent_id The unique identifier of the sentence to process
+     * @return The same sent_id that was passed in (for chaining operations)
+     */
     public static int extract_phen(Integer sent_id) {
 
-    	System.out.println("Sent Id: " + sent_id + "--------------------");
-    	
-    	int max_word_id = connect_phen.word_max(sent_id);
-    	
+        System.out.println("Sent Id: " + sent_id + "--------------------");
+        
+        // Get the maximum word_id for this sentence to determine boundaries
+        int max_word_id = connect_phen.word_max(sent_id);
+        
+        // List to collect words that form concepts
         List<String> word_concept = new ArrayList<String>();
 
-        
+        // State tracking variables
+        // gate1: true if previous word is a relation, false if previous word is a concept
         boolean gate1 = false;
+        // gate2: true if previous word is not part of a concept, false if it is
         boolean gate2 = true; 
         
-        int subj_memory = 0;
-        int greater_than_subj = 0;
-        int word_count = 1;
+        // Variables to track subject information
+        int subj_memory = 0;         // Last processed subject ID
+        int greater_than_subj = 0;   // Highest subject ID seen so far
+        int word_count = 1;          // Counter for logging/tracking
         
+        // Retrieve all words for this sentence from the database
         List<word_return_obj> l_wro = connect_phen.word_return(sent_id);
         
-       // for(int word_order = min_word_id; word_order < max_word_id; word_order++){
-         
-        for(word_return_obj wro: l_wro){
+        // Main processing loop - iterate through each word in the sentence
+        for (word_return_obj wro : l_wro) {
         
-        	System.out.println("Word " + word_count + " Id: " + wro.word_id);
+            System.out.println("Word " + word_count + " Id: " + wro.word_id);
                     
+            // Variable to flag if the current word is part of a subject
             int subject_trigger = 0;
             
+            // Flag for subject processing
             boolean subj_bool = false;
             
-           // for(int subj_unit_order = min_subj_unit_id; subj_unit_order < max_subj_unit_id + 1; subj_unit_order++){
-            
-            	//System.out.println("Subj Unit Id:" + subj_unit_order);
+            // Process subject references if not already flagged
+            if (subj_bool == false) { 
+                // Check if current word is part of a subject
+                int subj_summary_id = connect_phen.subj_unit_search(wro.word_id, sent_id);
                 
-            if(subj_bool == false){ 
-            
-               int subj_summary_id = connect_phen.subj_unit_search(wro.word_id, sent_id);
-                
-                
-                
-                if(subj_summary_id != subj_memory && subj_summary_id != 0 && subj_summary_id > greater_than_subj){
+                // If found a new subject with a higher ID than previous subjects
+                if (subj_summary_id != subj_memory && 
+                    subj_summary_id != 0 && 
+                    subj_summary_id > greater_than_subj) {
                     greater_than_subj = subj_summary_id;
                     subj_bool = true;
                     subject_trigger = 1;
                 }
 
-                    subj_memory = subj_summary_id;
+                // Remember this subject ID for next iteration
+                subj_memory = subj_summary_id;
 
-                    if(subj_summary_id != 0 && subj_summary_id == greater_than_subj){
-                        
-                        subject_trigger = 1;
-                    }
-                       
+                // If this word is part of an already identified subject
+                if (subj_summary_id != 0 && subj_summary_id == greater_than_subj) {
+                    subject_trigger = 1;
+                }
             } 
-                   
-                
-           // }
             
-
-            
-            if( wro.syn_id != 0 || subject_trigger == 1){               //if the current word is a subject or syn
+            // CASE 1: Current word is a syntactic relation or part of a subject
+            if (wro.syn_id != 0 || subject_trigger == 1) {
                 
-                if(gate2 == false){                                 //if the previous word was not a subject or syn
-                                                                    //Has to not be the first word
-
-                 //Commit Concept
-                 concept.commit_concept(word_concept, sent_id, 0 , 0);      //commit concept
-                 word_concept.clear();
-                
-                
-                 gate2 = true;                                     //(Previous word is not part of a concept 
-                }if (gate2 == true){                                             //the previous word was not a part of a concept
-                
-                     if(wro.syn_id != 0 && subject_trigger != 1){
-
-                       
-                        concept.commit_relation(wro.word_content, sent_id, wro.syn_id, 0, 0);
-
-                                                                                //Add word to relation array
-                
-                     }
-                     
-                     
-                gate1 = true;                                      //(Previous word is a relation)
-                }
-                
-                gate1=true;
-            }else{                                                  //Current word is not a relation
-             
-             
-                if(gate1 == false && gate2 == true){                //if previous word is not a concept and previous word is a relation
-             
-                word_concept.add(wro.word_content);                       //add word to concept array
-                
-                
-                gate2 = false;                                      //previous word is not a relation
-                
-                
-                }else if(gate1 == true){           //If previous word is a relation and current word is not a relation
-                                                                    //Current word is not a relation
-                                                                    //First word in Concept accounted for
+                // If previous word was part of a concept (not a relation/subject)
+                if (gate2 == false) {
+                    // We've reached the end of a concept, commit it to database
+                    concept.commit_concept(word_concept, sent_id, 0, 0);
+                    word_concept.clear();
                     
-                    
-                    word_concept.add(wro.word_content);                   //Add word to concept array
-                    
-                    
-                    gate2 = false;                                  //previous word is not a relation
-                    gate1 = false;                                  //previous word is a concept
-                    
-                }else if (gate1 == false && gate2 == false){        //If previous word is not a relation and previous word is a concept
-                                                                    //2nd and above word in Concept
-                    
-                    
-                     word_concept.add(wro.word_content);                  //Add word to concept array
-                    
-                    
-                }
-                if(wro.word_id == max_word_id - 1){          //If current word is not a relation
-                                                                               //and previous word is a relation
-                                                                               //and the current word is the last word in the sentence
-                                                 //add current word to concept                       
-                    
-                    
-                    /// Commit Concept
-                    
-                    
-                    
-                     concept.commit_concept(word_concept, sent_id, 0, 0);            //Commit concept
-                    
-                     
-                     
-                     
-                    
-                    
+                    // Update state: previous word is not part of a concept
                     gate2 = true;
                 }
                 
+                // If previous word was not part of a concept
+                if (gate2 == true) {
+                    // If the word is a syntactic relation (not just a subject part)
+                    if (wro.syn_id != 0 && subject_trigger != 1) {
+                        // Commit this word as a relation
+                        concept.commit_relation(wro.word_content, sent_id, wro.syn_id, 0, 0);
+                    }
+                    
+                    // Update state: previous word is a relation
+                    gate1 = true;
+                }
                 
+                // Ensure gate1 is set (redundant with above, but ensures consistency)
+                gate1 = true;
+            }
+            // CASE 2: Current word is neither a syntactic relation nor part of a subject
+            else {
                 
-            }       //Not a relation
-            
-            
-            
-            if(subj_bool == true){
+                // Sub-case 2.1: Previous word was a concept and previous word was a relation
+                if (gate1 == false && gate2 == true) {
+                    // Start a new concept with this word
+                    word_concept.add(wro.word_content);
+                    
+                    // Update state: previous word is not a relation
+                    gate2 = false;
+                }
+                // Sub-case 2.2: Previous word was a relation
+                else if (gate1 == true) {
+                    // Start a new concept with this word
+                    word_concept.add(wro.word_content);
+                    
+                    // Update state: previous word is not a relation and is a concept
+                    gate2 = false;
+                    gate1 = false;
+                }
+                // Sub-case 2.3: Previous word was a concept and not a relation
+                else if (gate1 == false && gate2 == false) {
+                    // Continue building the current concept
+                    word_concept.add(wro.word_content);
+                }
                 
-                String subj_content = connect_phen.subj_return(subj_memory);
-                concept.commit_subj(subj_content, subj_memory, sent_id, 0, 0);
-                
+                // If this is the last word in the sentence 
+                if (wro.word_id == max_word_id - 1) {
+                    // Commit the final concept
+                    concept.commit_concept(word_concept, sent_id, 0, 0);
+                    
+                    // Update state: previous word is not part of a concept
+                    gate2 = true;
+                }
             }
             
-          word_count++;  
-        }           //Word_Id loop
-               
-        	
-        	word_concept.clear();
-        	l_wro.clear();
-                          //Commit Relations
+            // If this word was part of a subject, commit the subject
+            if (subj_bool == true) {
+                // Get the subject content and commit it
+                String subj_content = connect_phen.subj_return(subj_memory);
+                concept.commit_subj(subj_content, subj_memory, sent_id, 0, 0);
+            }
+            
+            // Increment word counter for logging
+            word_count++;
+        }
         
+        // Clean up resources after processing
+        word_concept.clear();
+        l_wro.clear();
+        
+        // Return the sentence ID for chaining
         return sent_id;
-        
     }
     
-    
-    
-    public static void commit_concept( List<String> concept, int sent_id, int syn_id, int subj_id){
+    /**
+     * Commits a concept (group of words) to the database.
+     * 
+     * This method:
+     * 1. Concatenates the words in the concept list into a single string
+     * 2. Cleans and formats the resulting string
+     * 3. Checks for election market references
+     * 4. Persists the concept to the database with relationship information
+     * 
+     * @param concept List of words that form the concept
+     * @param sent_id The sentence ID this concept belongs to
+     * @param syn_id The syntactic relation ID (if applicable)
+     * @param subj_id The subject ID this concept relates to (if applicable)
+     */
+    public static void commit_concept(List<String> concept, int sent_id, int syn_id, int subj_id) {
         
+        // Build the concept string from the list of words
         String concept_content = "";
         int concept_unit_total = concept.size();
         int concept_unit_order = 1;
-        for(String word_content: concept){
-            
-            
-            
-            
-            if(concept_unit_order != concept_unit_total)
+        
+        // Join words with spaces, except for the last word
+        for (String word_content : concept) {
+            if (concept_unit_order != concept_unit_total)
                 concept_content += word_content + " ";
             else
                 concept_content += word_content; 
@@ -187,75 +206,102 @@ public class concept {
             concept_unit_order++;
         }
         
+        // Get the next available concept ID
         int concept_id = connect_phen.concept_max();
         
-        //Commit Concept
-        
-        if(concept_content != null && concept_content !="" && concept_content.length()>0){
-        if(concept_content.charAt(concept_content.length()-1) == ' '){
-            
-            concept_content = concept_content.substring(0, concept_content.length()-1);
-        }
+        // Clean up the concept string by removing trailing spaces
+        if (concept_content != null && concept_content != "" && concept_content.length() > 0) {
+            if (concept_content.charAt(concept_content.length() - 1) == ' ') {
+                concept_content = concept_content.substring(0, concept_content.length() - 1);
+            }
         }
         
+        /*
+         * NOTE: The commented section below appears to be legacy code for
+         * looking up the concept in various libraries. It's kept for
+         * historical reference but not currently used.
+         */
+        /*  int gdelt_lib_id = connect_phen.gdelt_library(concept_content);
+            int idea_lib_id = connect_phen.idea_library(concept_content);
+            int gics_lib_id = connect_phen.gics_library(concept_content);  */
         
-   /*     int gdelt_lib_id = connect_phen.gdelt_library(concept_content);
-        int idea_lib_id = connect_phen.idea_library(concept_content);
-        int gics_lib_id = connect_phen.gics_library(concept_content);        */
-        
+        // Look up if this concept is mentioned in election markets
         int election_markets_id = connect_phen.election_markets(concept_content);
         
+        // Remove duplicate spaces
         concept_content = concept_content.replaceAll("\\ \\ ", "\\ ");
         
+        // Persist the concept to the database with election market information
         connect_phen.phen_summary(sent_id, concept_content, syn_id, subj_id, concept_id + 1, election_markets_id);
         
+        // Clear the reference for garbage collection
         concept_content = null;
     }
     
-    
-    
-    public static void commit_relation(String relation_content, int sent_id, int syn_id, int subj_id, int concept_id){
-     
+    /**
+     * Commits a syntactic relation to the database.
+     * 
+     * This method processes and stores words that represent relations between
+     * concepts or subjects in the sentence, also checking for election market references.
+     * 
+     * @param relation_content The relation word
+     * @param sent_id The sentence ID this relation belongs to
+     * @param syn_id The syntactic relation ID
+     * @param subj_id The subject ID this relation connects to (if applicable)
+     * @param concept_id The concept ID this relation connects to (if applicable)
+     */
+    public static void commit_relation(String relation_content, int sent_id, int syn_id, int subj_id, int concept_id) {
         
-        //Relation Commit
-        
-        if(relation_content.charAt(relation_content.length()-1) == ' '){
-            
-            relation_content = relation_content.substring(0, relation_content.length()-1);
+        // Clean up the relation string by removing trailing spaces
+        if (relation_content.charAt(relation_content.length() - 1) == ' ') {
+            relation_content = relation_content.substring(0, relation_content.length() - 1);
         }
         
+        // Look up if this relation is mentioned in election markets
         int election_markets_id = connect_phen.election_markets(relation_content);
         
+        // Remove duplicate spaces
         relation_content = relation_content.replaceAll("\\ \\ ", "\\ ");
         
-        connect_phen.phen_summary(sent_id, relation_content, syn_id ,subj_id , concept_id, election_markets_id);
-        
-        
+        // Persist the relation to the database with election market information
+        connect_phen.phen_summary(sent_id, relation_content, syn_id, subj_id, concept_id, election_markets_id);
     }
     
-    
-    public static void commit_subj(String subj_content, int subj_id, int sent_id, int syn_id, int concept_id){
+    /**
+     * Commits a subject to the database.
+     * 
+     * This method processes and stores named entities or subjects identified
+     * in the sentence, also checking for election market references.
+     * 
+     * @param subj_content The subject text
+     * @param subj_id The subject ID
+     * @param sent_id The sentence ID this subject belongs to
+     * @param syn_id The syntactic relation ID (if applicable)
+     * @param concept_id The concept ID this subject relates to (if applicable)
+     */
+    public static void commit_subj(String subj_content, int subj_id, int sent_id, int syn_id, int concept_id) {
         
-
-
-        if(subj_content.charAt(subj_content.length()-1) == ' '){
-            
-            subj_content = subj_content.substring(0, subj_content.length()-1);
+        // Clean up the subject string by removing trailing spaces
+        if (subj_content.charAt(subj_content.length() - 1) == ' ') {
+            subj_content = subj_content.substring(0, subj_content.length() - 1);
         }
         
+        /*
+         * NOTE: The commented section below appears to be legacy code for
+         * looking up the subject in various libraries. It's kept for
+         * historical reference but not currently used.
+         */
+        /*  int gdelt_lib_id = connect_phen.gdelt_library(subj_content);
+            int idea_lib_id = connect_phen.idea_library(subj_content);
+            int gics_lib_id = connect_phen.gics_library(subj_content); */
         
-        //Commit Subject
-            
-    /*    int gdelt_lib_id = connect_phen.gdelt_library(subj_content);
-        int idea_lib_id = connect_phen.idea_library(subj_content);
-        int gics_lib_id = connect_phen.gics_library(subj_content); */
-        
+        // Look up if this subject is mentioned in election markets
         int election_markets_id = connect_phen.election_markets(subj_content);
         
+        // Remove duplicate spaces
         subj_content = subj_content.replaceAll("\\ \\ ", "\\ ");
         
+        // Persist the subject to the database with election market information
         connect_phen.phen_summary(sent_id, subj_content, syn_id, subj_id, concept_id, election_markets_id);
-        
-        
     }
 }
