@@ -5,6 +5,7 @@ psycopg2-binary
 scikit-learn
 boto3
 matplotlib
+flask
 
 # needed to manually install elasticsearch6 and matplotlib
 # we can use uv to speed up install
