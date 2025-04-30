@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import os
 import subprocess
 
@@ -22,6 +22,32 @@ def write_to_file():
         return jsonify({'status': 'success', 'message': 'Text written to file'}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/download-html', methods=['GET'])
+def download_html():
+    html_file_path = '/home/ec2-user/cortext_io/cortext_io_db/000_cortext_io.html'
+    
+    try:
+        # Check if the file exists
+        if not os.path.exists(html_file_path):
+            return jsonify({
+                'status': 'error',
+                'message': 'HTML file not found'
+            }), 404
+            
+        # Return the file as an attachment
+        return send_file(
+            html_file_path,
+            mimetype='text/html',
+            as_attachment=True,
+            download_name='000_cortext_io.html'
+        )
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 @app.route('/run-java', methods=['POST'])
 def run_java():
