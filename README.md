@@ -16,6 +16,21 @@ Cortext is a lightweight LLM that extracts "hashtags" and searches the most over
 The Cortext LLM is more elegant than "Word2Vec" style Natural Language Processing, though crudely implemented... it is based on Wierzbicka's [Semantic Primes](https://en.wikipedia.org/wiki/Natural_semantic_metalanguage), and has the potential to function in 20+ languages.
 
 
+### 2025-05-25
+
+
+
+# Thank you [Mat Allen](https://github.com/doomdagadiggiedahdah) for all the contribution!
+
+### Command to Run MCP
+```
+## create image
+sudo docker build -t cortext-python310 .
+sudo docker run -it -p 5000:5000 --name cortext-python310-fastmcp cortext-python310
+
+## inside the image run
+python3 ./cortext_io/api/app.py
+```
 
 ## Microservice Architecture I run Cortext LLM within
 
